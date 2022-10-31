@@ -1,7 +1,7 @@
 -- Team: T11
 -- Team Members:
--- Member 1: Zachary Livesay
--- Member 2: Gavin Phillips
+-- Member 1: Gavin Phillips
+-- Member 2: Zachary Livesay
 -- Member 3: Nalia Pope
 -- Member 4: Paul Rajapandi
 -- Member 5: Rob Shovan
