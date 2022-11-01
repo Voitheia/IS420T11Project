@@ -142,12 +142,57 @@ create sequence order_id_seq start with 1;
 --turn on server output
 set serveroutput on;
 
--- MEMBER 1
+-- MEMBER 1 
+-- insert sample cuisines into database
+Insert INTO cuisines values(cuisine_id_seq.nextval, 'American');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Nigerian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Mexican');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Swedish');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'German');
+
+-- insert sample restaurants into database
+Insert into restaurants values(restaurant_id_seq.nextval, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'El Guapo', '729A Frederick Rd', 'Catonsville', 'MD', 21228, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Mexican'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Nigerian Grill', '10309 Grand Central Ave', 'Owings Mills', 'MD', 21117, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Nigerian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Chilis Bar and Grill', '502 Baltimore Pike', 'Bel Air', 'MD', 21014, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Kabob and Curry', '827 Nursery Rd', 'Linthicum Heights', 'MD', 21090, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
+
+-- procedure that adds cuisine types
+create or replace procedure newCuisine(cuisine_type IN varchar2)
+    AS
+    BEGIN
+        INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
+    END;
+
+-- test newCuisine procedure
+exec newCuisine('Chinese');
+
+-- procedure that adds new restaurant
+create or replace procedure newRestaurant(
+    r_name varchar2,
+    r_street_address varchar2,
+    r_city varchar2,
+    r_state varchar2,
+    r_zipcode number,
+    r_cuisine_type varchar2
+    )
+    AS
+    BEGIN
+        INSERT INTO restaurants VALUES(
+        restaurant_id_seq.nextval,
+        r_name,
+        r_street_address,
+        r_city,
+        r_state,
+        r_zipcode,
+        (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
+    END;
+
+-- test newRestuarant procedure
+exec newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
 
 -- MEMBER 2
-
-Insert into Cuisines values (cuisine_id_seq.nextval, 'American');
-Insert into Restaurant values (restaurant_id_seq, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, 1);
 Insert into Waiters values (waiter_id_seq.nextval, 'Matthew Sach', 1);
 Insert into Waiters values (waiter_id_seq.nextval, 'Zachary Livesay', 1);
 
