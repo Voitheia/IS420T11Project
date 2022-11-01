@@ -295,11 +295,12 @@ WHEN NO_DATA_FOUND THEN
 END;
 
 /
+
 —procedure that creates a menu item and adds it to menu items table
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
 AS
 BEGIN
-	INSERT INTO menu_items(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, itemName, price);
+	INSERT INTO menu_items(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL,itemName, price);
 END;
 
 /
@@ -313,7 +314,7 @@ BEGIN
 	SELECT menu_item_name INTO name
 	FROM menu_items;
 	rest_id = FIND_RESTAURANT_ID();
-	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, name rest_id, 	quantity);
+	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, name rest_id, quantity);
 
 END;
 /
