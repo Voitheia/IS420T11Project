@@ -144,7 +144,7 @@ set serveroutput on;
 
 -- MEMBER 1 
 -- insert sample cuisines into database
-Insert INTO cuisines values(cuisine_id_seq.nextval, 'American');
+INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Nigerian');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Mexican');
@@ -152,7 +152,7 @@ INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Swedish');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'German');
 
 -- insert sample restaurants into database
-Insert into restaurants values(restaurant_id_seq.nextval, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
 INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'El Guapo', '729A Frederick Rd', 'Catonsville', 'MD', 21228, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Mexican'));
 INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Nigerian Grill', '10309 Grand Central Ave', 'Owings Mills', 'MD', 21117, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Nigerian'));
 INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Chilis Bar and Grill', '502 Baltimore Pike', 'Bel Air', 'MD', 21014, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
@@ -164,6 +164,7 @@ create or replace procedure newCuisine(cuisine_type IN varchar2)
     BEGIN
         INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
     END;
+/
 
 -- procedure that adds new restaurant
 create or replace procedure newRestaurant(
@@ -185,12 +186,13 @@ create or replace procedure newRestaurant(
         r_zipcode,
         (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
     END;
+/
 
--- test newCuisine procedure
-exec newCuisine('Chinese');
-
--- test newRestuarant procedure
-exec newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
+-- test newCuisine and newRestaurant procedures
+BEGIN
+    newCuisine('Chinese');
+    newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
+END;
 
 -- MEMBER 2
 Insert into Waiters values (waiter_id_seq.nextval, 'Matthew Sach', 1);
