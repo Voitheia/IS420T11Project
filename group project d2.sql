@@ -146,8 +146,8 @@ set serveroutput on;
 
 -- MEMBER 2
 
-Insert into Cuisines values (1, 'American');
-Insert into Restaurant values (1, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, 1);
+Insert into Cuisines values (cuisine_id_seq.nextval, 'American');
+Insert into Restaurant values (restaurant_id_seq, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, 1);
 Insert into Waiters values (waiter_id_seq.nextval, 'Matthew Sach', 1);
 Insert into Waiters values (waiter_id_seq.nextval, 'Zachary Livesay', 1);
 
