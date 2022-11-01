@@ -138,7 +138,12 @@ create sequence menu_item_id_seq start with 1;
 create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
+-- MEMBER 1
+-- MEMBER 2
+-- MEMBER 3
+-- MEMBER 4
 
+-- MEMBER 5
 -- insert sample customers into database
 insert into customers
 values (customer_id_seq.nextval, 'John Smith', 'jsmith@gmail.com', '100 Light Street', 'Baltimore', 'MD', '21048', '1234567890123456');
