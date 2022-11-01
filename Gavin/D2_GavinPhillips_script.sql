@@ -164,6 +164,7 @@ create or replace procedure newCuisine(cuisine_type IN varchar2)
     BEGIN
         INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
     END;
+/
 
 -- procedure that adds new restaurant
 create or replace procedure newRestaurant(
@@ -185,9 +186,10 @@ create or replace procedure newRestaurant(
         r_zipcode,
         (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
     END;
+/
 
--- test newCuisine procedure
-exec newCuisine('Chinese');
-
--- test newRestuarant procedure
-exec newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
+-- test newCuisine and newRestaurant procedures
+BEGIN
+    newCuisine('Chinese');
+    newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
+END;
