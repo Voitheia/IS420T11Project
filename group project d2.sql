@@ -263,6 +263,61 @@ Begin
 end;
 
 -- MEMBER 3
+
+—insert values into menu_items table
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, lasagna, 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, fries, 7);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, tandoori chicken, 12);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, pizza, 21);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, legume stew, 13);
+
+
+—insert values into inventory table
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, lasagna, restaurant_id_seq.NEXTVAL, 11);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, fries, restaurant_id_seq.NEXTVAL, 40);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, tandoori chicken, restaurant_id_seq.NEXTVAL, 23);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, pizza, restaurant_id_seq.NEXTVAL, 60);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, legume stew, restaurant_id_seq.NEXTVAL, 17);
+
+
+— cuisine id helper function 
+CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE (cuisineName IN VARCHAR2) RETURN NUMBER
+IS
+cuisineID cuisines.cuisine_id%type;
+
+BEGIN
+SELECT cuisine_id INTO cuisineID FROM cuisines WHERE cuisine_name = cuisineName;
+RETURN cuisine_id;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+	dbms_output.put_line(‘There is no cuisine ID for ’ || cuisineName);
+	RETURN -1;
+END;
+
+/
+—procedure that creates a menu item and adds it to menu items table
+CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
+AS
+BEGIN
+	INSERT INTO menu_items(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, itemName, price);
+END;
+
+/
+	
+—create procedure that adds and menu item with its attributes and quantity to the inventory
+CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (cuisineName IN VARCHAR2, quantity IN NUMBER)
+IS
+	name menu_items.menu_item_name%type;
+	rest_id restaurants.restaurant_id%type;
+BEGIN
+	SELECT menu_item_name INTO name
+	FROM menu_items;
+	rest_id = FIND_RESTAURANT_ID();
+	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, name rest_id, 	quantity);
+
+END;
+/
+
 -- MEMBER 4
 
 -- MEMBER 5
