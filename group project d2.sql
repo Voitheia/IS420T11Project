@@ -138,8 +138,83 @@ create sequence menu_item_id_seq start with 1;
 create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
+
+--turn on server output
+set serveroutput on;
+
 -- MEMBER 1
+
 -- MEMBER 2
+
+Insert into Cuisines values (1, 'American');
+Insert into Restaurant values (1, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, 1);
+Insert into Waiters values (waiter_id_seq.nextval, 'Matthew Sach', 1);
+Insert into Waiters values (waiter_id_seq.nextval, 'Zachary Livesay', 1);
+
+create or replace function FIND_RESTAURANT_ID
+ (RestaurantName IN varchar2) RETURN number 
+is
+ RID restaurants.restaurant_id%type;
+ 
+begin
+ select restaurant_id
+ into RID
+ from restaurants
+ where restaurant_name = RestaurantName;
+ return RID;
+end;
+
+create or replace procedure Hire_Waiter
+ (WaiterName IN varchar2, RestaurantName IN varchar2)
+is
+ WName varchar2(50);
+ RName varchar2(50);
+ RID number;
+ 
+begin
+ WName := WaiterName;
+ RName := RestaurantName;
+ RID := FIND_RESTAURANT_ID(RName);
+ Insert into Waiters values (waiter_id_seq.nextval, WName, RID);
+end;
+/
+
+create or replace procedure Show_Waiter_List
+ (RestaurantName IN varchar2)
+is
+cursor waiters_cursor is
+    select Waiter_ID, Waiter_Name, Waiter_Restaurant_ID
+    from Waiters;
+  waiters_rec waiters_cursor%rowtype; 
+  
+  RName varchar(50);
+  RID number;
+ 
+begin
+ RName := RestaurantName;
+ RID := FIND_RESTAURANT_ID(RName);
+
+ for waiters_rec in waiters_cursor
+ loop
+ if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ', Waiter Name: ' || waiters_rec.Waiter_Name
+ || ', Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID || chr(10));
+ --exit when waiters_cursor%notfound;
+ end if;
+ end loop;
+end;
+/
+
+
+declare
+ TestName varchar2(50) := 'Kenny Somaiya';
+ TestRestaurant varchar2(50) := 'Buds Diner';
+Begin
+ 
+ Hire_Waiter(TestName, TestRestaurant);
+
+ Show_Waiter_List(TestRestaurant);
+end;
+
 -- MEMBER 3
 -- MEMBER 4
 
@@ -155,9 +230,6 @@ insert into customers
 values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'MD', '21030', '1234567890123456');
 insert into customers
 values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'MD', '21093', '1234567890123456');
-
---turn on server output
-set serveroutput on;
 
 -- add a customer given necessary information
 -- does not require c_id since that is handled by a sequence
