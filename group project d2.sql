@@ -265,19 +265,19 @@ end;
 -- MEMBER 3
 
 —insert values into menu_items table
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, lasagna, 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, fries, 7);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, tandoori chicken, 12);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, pizza, 21);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, legume stew, 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'lasagna', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'fries', 7);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'tandoori chicken', 12);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'pizza', 21);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'legume stew', 13);
 
 
 —insert values into inventory table
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, lasagna, restaurant_id_seq.NEXTVAL, 11);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, fries, restaurant_id_seq.NEXTVAL, 40);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, tandoori chicken, restaurant_id_seq.NEXTVAL, 23);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, pizza, restaurant_id_seq.NEXTVAL, 60);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, legume stew, restaurant_id_seq.NEXTVAL, 17);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'lasagna', restaurant_id_seq.NEXTVAL, 11);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'fries', restaurant_id_seq.NEXTVAL, 40);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'tandoori chicken', restaurant_id_seq.NEXTVAL, 23);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'pizza', restaurant_id_seq.NEXTVAL, 60);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'legume stew', restaurant_id_seq.NEXTVAL, 17);
 
 
 — cuisine id helper function 
