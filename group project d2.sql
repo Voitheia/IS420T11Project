@@ -362,7 +362,9 @@ create or replace procedure add_customer
 as
 begin
     insert into customers
-    values (customer_id_seq.nextval, c_name, c_email, c_street_address, c_city, c_state, c_zipcode, c_credit_card);    
+    values (customer_id_seq.nextval, c_name, c_email, c_street_address, c_city, c_state, c_zipcode, c_credit_card);
+    dbms_output.put_line('New customer ' || c_name || ' added to the database.');
+    dbms_output.put_line('');
 end;
 /
 
@@ -392,6 +394,7 @@ begin
     dbms_output.put_line('');
 end;
 /
+
 
 begin
     -- adding customer to database with add_customer procedure
