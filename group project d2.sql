@@ -377,40 +377,28 @@ as
         from customers
         where customer_zipcode = zipcode;
     customer_rec c_customer%rowtype;
+    i number; -- iterator to keep track of number of customers in each zipcode
 begin
---    dbms_output.put_line('Customers in zipcode ' || zipcode || ':');
---    for customer_rec in c_customer
---    loop
---        dbms_output.put_line(customer_rec.customer_name);
---    end loop;
---    if c_customer%rowcount = 0 then
---        dbms_output.put_line('No customers found.');
---    end if;
---    dbms_output.put_line('');
-    
+    i := 0;
     dbms_output.put_line('Customers in zipcode ' || zipcode || ':');
-    open c_customer;
+    for customer_rec in c_customer
     loop
-        fetch c_customer into customer_rec;
-        if c_customer%found then
-            dbms_output.put_line(customer_rec.customer_name);
-        end if;
+        dbms_output.put_line(customer_rec.customer_name);
+        i := i + 1;
     end loop;
-    if c_customer%rowcount = 0 then
+    if i <= 0 then
         dbms_output.put_line('No customers found.');
     end if;
     dbms_output.put_line('');
-    close c_customer;
 end;
 /
 
 begin
     -- adding customer to database with add_customer procedure
-    -- show that customers were entered in the database
     add_customer('Rob Shovan', 'rshovan1@umbc.edu', '10000 Hilltop Circle', 'Catonsville', 'MD', 21076, 1234567890123456);
     add_customer('Will Smith', 'wsmith@gmail.com', '10000 Hilltop Circle', 'Catonsville', 'MD', 21076, 1234567890123456);
     
-    -- getting customer names with a specific zipcode
+    -- getting customer names with a specific zipcode, show that customers added with add_customer were entered into the db
     list_customer_in_zip(21076);
     list_customer_in_zip(21075);
     list_customer_in_zip(21048);
