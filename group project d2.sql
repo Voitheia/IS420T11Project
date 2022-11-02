@@ -139,24 +139,64 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
+-- insert sample cuisines into database
+INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Italian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Ethiopian');
+
+-- insert sample restaurants into database
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Chilis Bar and Grill', '502 Baltimore Pike', 'Bel Air', 'MD', 21014, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Kabob and Curry', '827 Nursery Rd', 'Linthicum Heights', 'MD', 21090, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Mama Santas', '729A Frederick Rd', 'Catonsville', 'MD', 21228, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Ethiopian Grill', '10309 Grand Central Ave', 'Owings Mills', 'MD', 21117, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
+
+-- insert values into menu_items table
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'burger', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'fries', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'pasta', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salad', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salmon', 13);
+
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'steak', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'pork loin', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'fillet mignon', 13);
+
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'dal soup', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'rice', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'tandoori chicken', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'samosa', 13);
+
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'lasagna', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'meatballs', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'spaghetti', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'pizza', 13);
+
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'meat chunks', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'legume stew', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'flatbread', 13);
+
+
+-- insert values into inventory table
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'burger'), 'burger', 1, 11);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'steak'), 'steak', 2, 40);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'samosa'), 'samosa', 3, 23);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pizza'), 'pizza', 4, 60);
+INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'), 'legume stew', 5, 17);
+
+-- insert sample customers into database
+insert into customers values (customer_id_seq.nextval, 'John Smith', 'jsmith@gmail.com', '100 Light Street', 'Baltimore', 'MD', '21048', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Jane Smith', 'smithj@gmail.com', '200 Light Street', 'Baltimore', 'MD', '21049', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.com', '300 Light Street', 'Baltimore', 'MD', '21098', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'MD', '21030', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'MD', '21093', '1234567890123456');
+
 --turn on server output
 set serveroutput on;
 
 -- MEMBER 1 
--- insert sample cuisines into database
-INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Nigerian');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Mexican');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Swedish');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'German');
-
--- insert sample restaurants into database
-INSERT into restaurants values(restaurant_id_seq.nextval, 'Buds Diner', '1601 N Main St', 'Tarboro', 'NC', 27886, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'El Guapo', '729A Frederick Rd', 'Catonsville', 'MD', 21228, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Mexican'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Nigerian Grill', '10309 Grand Central Ave', 'Owings Mills', 'MD', 21117, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Nigerian'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Chilis Bar and Grill', '502 Baltimore Pike', 'Bel Air', 'MD', 21014, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Kabob and Curry', '827 Nursery Rd', 'Linthicum Heights', 'MD', 21090, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
 
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
@@ -264,23 +304,7 @@ end;
 
 -- MEMBER 3
 
-—insert values into menu_items table
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'lasagna', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'fries', 7);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'tandoori chicken', 12);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'pizza', 21);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL, 'legume stew', 13);
-
-
-—insert values into inventory table
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'lasagna', restaurant_id_seq.NEXTVAL, 11);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'fries', restaurant_id_seq.NEXTVAL, 40);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'tandoori chicken', restaurant_id_seq.NEXTVAL, 23);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'pizza', restaurant_id_seq.NEXTVAL, 60);
-INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, 'legume stew', restaurant_id_seq.NEXTVAL, 17);
-
-
-— cuisine id helper function 
+-- cuisine id helper function 
 CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE (cuisineName IN VARCHAR2) RETURN NUMBER
 IS
 cuisineID cuisines.cuisine_id%type;
@@ -296,7 +320,7 @@ END;
 
 /
 
-—procedure that creates a menu item and adds it to menu items table
+--procedure that creates a menu item and adds it to menu items table
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
 AS
 BEGIN
@@ -305,7 +329,7 @@ END;
 
 /
 	
-—create procedure that adds and menu item with its attributes and quantity to the inventory
+--create procedure that adds and menu item with its attributes and quantity to the inventory
 CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (cuisineName IN VARCHAR2, quantity IN NUMBER)
 IS
 	name menu_items.menu_item_name%type;
@@ -322,17 +346,6 @@ END;
 -- MEMBER 4
 
 -- MEMBER 5
--- insert sample customers into database
-insert into customers
-values (customer_id_seq.nextval, 'John Smith', 'jsmith@gmail.com', '100 Light Street', 'Baltimore', 'MD', '21048', '1234567890123456');
-insert into customers
-values (customer_id_seq.nextval, 'Jane Smith', 'smithj@gmail.com', '200 Light Street', 'Baltimore', 'MD', '21049', '1234567890123456');
-insert into customers
-values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.com', '300 Light Street', 'Baltimore', 'MD', '21098', '1234567890123456');
-insert into customers
-values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'MD', '21030', '1234567890123456');
-insert into customers
-values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'MD', '21093', '1234567890123456');
 
 -- add a customer given necessary information
 -- does not require c_id since that is handled by a sequence
