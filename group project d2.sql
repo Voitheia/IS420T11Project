@@ -153,6 +153,11 @@ INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Kabob and Curry', '82
 INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Mama Santas', '729A Frederick Rd', 'Catonsville', 'MD', 21228, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
 INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Ethiopian Grill', '10309 Grand Central Ave', 'Owings Mills', 'MD', 21117, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
 
+-- insert sample waiters into database
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Zachary Livesay', 1);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Kenny Somaiya', 1);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Matthew Sachs', 1);
+
 -- insert values into menu_items table
 INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'burger', 13);
 INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'fries', 13);
@@ -192,6 +197,16 @@ insert into customers values (customer_id_seq.nextval, 'Jane Smith', 'smithj@gma
 insert into customers values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.com', '300 Light Street', 'Baltimore', 'MD', '21098', '1234567890123456');
 insert into customers values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'MD', '21030', '1234567890123456');
 insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'MD', '21093', '1234567890123456');
+
+-- insert sample orders into database
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 10);
 
 --turn on server output
 set serveroutput on;
@@ -235,9 +250,6 @@ BEGIN
 END;
 
 -- MEMBER 2
-Insert into Waiters values (waiter_id_seq.nextval, 'Matthew Sach', 1);
-Insert into Waiters values (waiter_id_seq.nextval, 'Zachary Livesay', 1);
-
 create or replace function FIND_RESTAURANT_ID
  (RestaurantName IN varchar2) RETURN number 
 is
@@ -250,6 +262,7 @@ begin
  where restaurant_name = RestaurantName;
  return RID;
 end;
+/
 
 create or replace procedure Hire_Waiter
  (WaiterName IN varchar2, RestaurantName IN varchar2)
@@ -291,13 +304,34 @@ begin
 end;
 /
 
---declare
- --TestName varchar2(50) := 'Kenny Somaiya';
- --TestRestaurant varchar2(50) := 'Buds Diner';
---Begin
--- Hire_Waiter(TestName, TestRestaurant);
--- Show_Waiter_List(TestRestaurant);
---end;
+declare
+ TestName varchar2(50) := 'Patrick Livesay';
+ TestRestaurant varchar2(50) := 'Chilis Bar and Grill';
+ 
+ TestName2 varchar2(50) := 'Ryan Dablo';
+ TestRestaurant2 varchar2(50) := 'Kabob and Curry';
+ 
+ TestName3 varchar2(50) := 'Jesse Parham';
+ TestRestaurant3 varchar2(50) := 'Mama Santas';
+ 
+ TestName4 varchar2(50) := 'Alex Cochrane';
+ TestRestaurant4 varchar2(50) := 'Suya Spot Ethiopian Grill';
+ 
+ TestRestaurant5 varchar2(50) := 'Buds Diner';
+Begin
+ Hire_Waiter(TestName, TestRestaurant);
+ Hire_Waiter(TestName2, TestRestaurant2);
+ Hire_Waiter(TestName3, TestRestaurant3);
+ Hire_Waiter(TestName4, TestRestaurant4);
+ Show_Waiter_List(TestRestaurant5);
+end;
+/
+
+--- inserting extra orders for state tips
+INSERT INTO orders VALUES (order_id_seq.nextval, 2, 5, 1, 4, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 3, 5, 1, 5, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 25);
+INSERT INTO orders VALUES (order_id_seq.nextval, 4, 5, 1, 6, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 5);
+INSERT INTO orders VALUES (order_id_seq.nextval, 5, 5, 1, 7, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 0);
 
 create or replace procedure Report_Tips
 
@@ -312,10 +346,12 @@ is
 begin
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ' Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
  end loop;
 end;
 /
+
+exec Report_Tips;
 
 create or replace procedure Report_Tips_By_State
 
@@ -334,6 +370,8 @@ begin
  end loop;
 end;
 /
+
+exec Report_Tips_By_State;
 
 -- MEMBER 3
 
