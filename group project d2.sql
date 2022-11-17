@@ -291,16 +291,49 @@ begin
 end;
 /
 
+--declare
+ --TestName varchar2(50) := 'Kenny Somaiya';
+ --TestRestaurant varchar2(50) := 'Buds Diner';
+--Begin
+-- Hire_Waiter(TestName, TestRestaurant);
+-- Show_Waiter_List(TestRestaurant);
+--end;
 
-declare
- TestName varchar2(50) := 'Kenny Somaiya';
- TestRestaurant varchar2(50) := 'Buds Diner';
-Begin
+create or replace procedure Report_Tips
+
+is
+ cursor orders_cursor is
+	select w.WAITER_ID, SUM(o.ORDER_TIP) as SumOfTips
+	from waiters w, orders o
+	where w.waiter_ID = o.ORDER_WAITER_ID
+    group by w.WAITER_ID;
+ orders_rec orders_cursor%rowtype; 
  
- Hire_Waiter(TestName, TestRestaurant);
-
- Show_Waiter_List(TestRestaurant);
+begin
+ for orders_rec in orders_cursor
+ loop
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ' Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ end loop;
 end;
+/
+
+create or replace procedure Report_Tips_By_State
+
+is
+ cursor orders_cursor is
+	select r.RESTAURANT_STATE, SUM(o.ORDER_TIP) as SumOfTips
+	from restaurants r, orders o
+	where r.RESTAURANT_ID = o.ORDER_RESTAURANT_ID
+    group by r.RESTAURANT_STATE;
+ orders_rec orders_cursor%rowtype; 
+ 
+begin
+ for orders_rec in orders_cursor
+ loop
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ end loop;
+end;
+/
 
 -- MEMBER 3
 
