@@ -193,20 +193,25 @@ INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, (SELECT menu_item_id FRO
 
 -- insert sample customers into database
 insert into customers values (customer_id_seq.nextval, 'John Smith', 'jsmith@gmail.com', '100 Light Street', 'Baltimore', 'MD', '21048', '1234567890123456');
-insert into customers values (customer_id_seq.nextval, 'Jane Smith', 'smithj@gmail.com', '200 Light Street', 'Baltimore', 'MD', '21049', '1234567890123456');
-insert into customers values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.com', '300 Light Street', 'Baltimore', 'MD', '21098', '1234567890123456');
-insert into customers values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'MD', '21030', '1234567890123456');
-insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'MD', '21093', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Jane Smith', 'smithj@gmail.com', '200 Light Street', 'Baltimore', 'CT', '21049', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.com', '300 Light Street', 'Baltimore', 'NY', '21098', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'NJ', '21030', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'WV', '21093', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Jackie Q', 'qjackie@gmail.com', '900 Light Street', 'Baltimore', 'WV', '21093', '1234567890123456');
 
 -- insert sample orders into database
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 10);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 10, 0);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 15, 0);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 20, 5);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 25, 5);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 30, 10);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 35, 10);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 40, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 45, 15);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 55, 20);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 60, 30);
+INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 65, 30);
 
 --turn on server output
 set serveroutput on;
@@ -385,7 +390,7 @@ SELECT cuisine_id INTO cuisineID FROM cuisines WHERE cuisine_name = cuisineName;
 RETURN cuisine_id;
 EXCEPTION
 WHEN NO_DATA_FOUND THEN
-	dbms_output.put_line(‘There is no cuisine ID for ’ || cuisineName);
+	dbms_output.put_line('There is no cuisine ID for ' || cuisineName);
 	RETURN -1;
 END;
 
@@ -417,6 +422,20 @@ END;
 -- MEMBER 4
 
 -- MEMBER 5
+
+-- find customer given name
+create or replace function find_customer_id(customerName in varchar2) return number
+is
+    customerID customers.customer_id%type;
+begin
+    select customer_id into customerID from customers where customer_name = customerName;
+    return customerID;
+EXCEPTION
+when NO_DATA_FOUND then
+    dbms_output.put_line('There is no customer ID for ' || customerName);
+    return -1;
+end;
+/
 
 -- add a customer given necessary information
 -- does not require c_id since that is handled by a sequence
@@ -466,7 +485,69 @@ begin
 end;
 /
 
+-- highest and lowest spenders report
+create or replace procedure highest_lowest_spenders_report
+as
+    cursor c_customer_highest is
+        select order_customer_id, sum(order_amount_paid) as total_spent
+        from orders
+        group by order_customer_id
+        order by total_spent desc;
+    customer_highest_rec c_customer_highest%rowtype;
+    cursor c_customer_lowest is
+        select order_customer_id, sum(order_amount_paid) as total_spent
+        from orders
+        group by order_customer_id
+        order by total_spent asc;
+    customer_lowest_rec c_customer_lowest%rowtype;
+    customerName customers.customer_name%type;
+    i number; -- iterator
+begin
+    i := 0;
+    dbms_output.put_line('Highest spending customers:');
+    for customer_highest_rec in c_customer_highest
+    loop
+        if i < 3 then
+            select customer_name into customerName from customers where customer_id = customer_highest_rec.order_customer_id;
+            dbms_output.put_line('Customer name: ' || customerName || ' | Amount spent: ' || customer_highest_rec.total_spent);
+            i := i+1;
+        end if;
+    end loop;
+    i := 0;
+    dbms_output.put_line('');
+    dbms_output.put_line('Lowest spending customers:');
+    for customer_lowest_rec in c_customer_lowest
+    loop
+        if i < 3 then
+            select customer_name into customerName from customers where customer_id = customer_lowest_rec.order_customer_id;
+            dbms_output.put_line('Customer name: ' || customerName || ' | Amount spent: ' || customer_lowest_rec.total_spent);
+            i := i+1;
+        end if;
+    end loop;
+    dbms_output.put_line('');
+end;
+/
 
+-- generous tippers report
+create or replace procedure generous_tipper_state_report
+as
+    cursor c_state_tips is
+        select c.customer_state, sum(o.order_tip) as total_tip
+        from customers c, orders o
+        where c.customer_id = o.order_customer_id
+        group by c.customer_state
+        order by total_tip desc;
+    state_tips_rec c_state_tips%rowtype;
+begin
+    dbms_output.put_line('Amount tipped by state:');
+    for state_tips_rec in c_state_tips
+    loop
+        dbms_output.put_line('State: ' || state_tips_rec.customer_state || ' | Amount tipped: ' || state_tips_rec.total_tip);
+    end loop;
+end;
+/
+
+-- execution of procedures
 begin
     -- adding customer to database with add_customer procedure
     add_customer('Rob Shovan', 'rshovan1@umbc.edu', '10000 Hilltop Circle', 'Catonsville', 'MD', 21076, 1234567890123456);
@@ -476,4 +557,8 @@ begin
     list_customer_in_zip(21076);
     list_customer_in_zip(21075);
     list_customer_in_zip(21048);
+
+    highest_lowest_spenders_report;
+
+    generous_tipper_state_report;
 end;
