@@ -155,36 +155,35 @@ INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Ethiopian G
 
 -- insert sample waiters into database
 INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Zachary Livesay', 1);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Kenny Somaiya', 1);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Matthew Sachs', 2);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jalen Murray', 3);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jacob Nagel', 4);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Austin Phillips', 5);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Kenny Somaiya', 2);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Matthew Sachs', 3);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jalen Murray', 4);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jacob Nagel', 5);
 
 -- insert values into menu_items table
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'burger', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'fries', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'pasta', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salad', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salmon', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'burger', 10);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'fries', 5);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'pasta', 10);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salad', 8);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'salmon', 18);
 
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'steak', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'pork loin', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'fillet mignon', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'steak', 20);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'pork loin', 22);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'), 'fillet mignon', 25);
 
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'dal soup', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'rice', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'dal soup', 10);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'rice', 4);
 INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'tandoori chicken', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'samosa', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'), 'samosa', 5);
 
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'lasagna', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'lasagna', 14);
 INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'meatballs', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'spaghetti', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'pizza', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'spaghetti', 11);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'), 'pizza', 9);
 
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'meat chunks', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'legume stew', 13);
-INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'flatbread', 13);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'meat chunks', 15);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'legume stew', 12);
+INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'), 'flatbread', 10);
 
 
 -- insert values into inventory table
@@ -203,8 +202,6 @@ insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.
 insert into customers values (customer_id_seq.nextval, 'Jackie Q', 'qjackie@gmail.com', '900 Light Street', 'Baltimore', 'WV', '21093', '1234567890123456');
 insert into customers values (customer_id_seq.nextval, 'Jon P', 'pjon@gmail.com', '1100 Light Street', 'Baltimore', 'MD', '21226', '1234567890123456');
 
--- insert sample orders into database
-
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'burger' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
 	1, 
@@ -220,92 +217,88 @@ INSERT INTO orders VALUES (order_id_seq.nextval,
 	1, to_date('2022-NOV-21', 'YYYY-MON-DD'), 
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'fries'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'fries'));
-	
+
 INSERT INTO orders VALUES (order_id_seq.nextval, 
-	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'dal soup' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	2, 
-	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'dal soup'), 
-	2, to_date('2022-AUG-20', 'YYYY-MON-DD'),
-	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'dal soup'), 
-	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'dal soup'));
-	
-INSERT INTO orders VALUES (order_id_seq.nextval, 
-	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'tandoori chicken' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	2, 
-	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'tandoori chicken'),  
-	2, to_date('2022-AUG-20', 'YYYY-MON-DD'), 
-	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'tandoori chicken'), 
-	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'tandoori chicken'));
-	
-INSERT INTO orders VALUES (order_id_seq.nextval, 
-	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'legume stew' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	3, 
-	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'),  
-	3, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
-	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew'), 
-	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew'));
-	
-INSERT INTO orders VALUES (order_id_seq.nextval, 
-	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'flatbread' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	3, 
-	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'flatbread'), 
-	3, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
-	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'flatbread'), 
-	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'flatbread'));
-	
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'salad' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	1, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'salad'), 
+	1, to_date('2022-FEB-26', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'salad'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'salad'));
+
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'steak' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	4, 
+	2, 
 	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'steak'), 
-	4, to_date('2022-MAY-21', 'YYYY-MON-DD'),
+	2, to_date('2022-MAY-21', 'YYYY-MON-DD'),
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'steak'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'steak'));
 	
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'fillet mignon' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	4, 
+	2, 
 	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'fillet mignon'), 
-	4, to_date('2022-MAY-21', 'YYYY-MON-DD'), 
+	2, to_date('2022-MAY-21', 'YYYY-MON-DD'), 
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'fillet mignon'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'fillet mignon'));
 	
 INSERT INTO orders VALUES (order_id_seq.nextval, 
-	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'salad' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	5, 
-	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'salad'), 
-	5, to_date('2022-FEB-26', 'YYYY-MON-DD'),
-	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'salad'), 
-	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'salad'));
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'dal soup' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	3, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'dal soup'), 
+	3, to_date('2022-AUG-20', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'dal soup'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'dal soup'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'tandoori chicken' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	3, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'tandoori chicken'),  
+	3, to_date('2022-AUG-20', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'tandoori chicken'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'tandoori chicken'));
 	
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'lasagna' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	5, 
+	4, 
 	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'lasagna'), 
-	5, to_date('2022-FEB-26', 'YYYY-MON-DD'),
+	4, to_date('2022-FEB-26', 'YYYY-MON-DD'),
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'lasagna'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'lasagna'));
 	
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'meatballs' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	6, 
+	4, 
 	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'meatballs'), 
-	6, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
+	4, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'meatballs'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'meatballs'));
 	
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'pizza' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
-	6, 
+	4, 
 	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pizza'), 
-	6, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
+	4, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'pizza'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'pizza'));
 
---turn on server output
-set serveroutput on;
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'legume stew' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	5, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'),  
+	5, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'flatbread' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	5, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'flatbread'), 
+	5, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'flatbread'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'flatbread'));
 
--- MEMBER 1: Gavin Phillips
-
+-- Beginning of Deliverable 2
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
     AS
@@ -336,6 +329,7 @@ create or replace procedure newRestaurant(
     END;
 /
 
+-- Beginning of Deliverable 3
 --procedure that takes input of cuisine name and returns restaurants that serve it, deliverable 3 procedure 1
 create or replace procedure findRestaurant(cName in varchar2)
 IS 
@@ -374,14 +368,15 @@ BEGIN
 end;
 /
 
--- test newCuisine and newRestaurant procedures
+-- test findRestaurant and  procedures
 BEGIN
-    newCuisine('Chinese');
-    newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'Chinese');
     findRestaurant('Indian');
     restaurantIncomeReport;
 END;
+
 /
+
+-- End of Member 1 code
 
 -- MEMBER 2: Zachary Livesay
 
