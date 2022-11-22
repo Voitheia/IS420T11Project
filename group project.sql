@@ -476,7 +476,7 @@ is
 begin
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ' | Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
  end loop;
  exception
      when no_data_found then
@@ -499,7 +499,7 @@ is
 begin
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ' | Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
  end loop;
  exception
      when no_data_found then
