@@ -298,6 +298,10 @@ INSERT INTO orders VALUES (order_id_seq.nextval,
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'flatbread'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'flatbread'));
 
+set serveroutput on;
+
+-- MEMBER 1: Gavin Phillips
+
 -- Beginning of Deliverable 2
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
@@ -586,6 +590,9 @@ begin
     values (customer_id_seq.nextval, c_name, c_email, c_street_address, c_city, c_state, c_zipcode, c_credit_card);
     dbms_output.put_line('New customer ' || c_name || ' added to the database.');
     dbms_output.put_line('');
+exception
+when others then
+    dbms_output.put_line('Encountered an error adding a customer.');
 end;
 /
 
@@ -613,6 +620,9 @@ begin
         dbms_output.put_line('No customers found.');
     end if;
     dbms_output.put_line('');
+exception
+when others then
+    dbms_output.put_line('Encountered an error listing customers in zipcode.');
 end;
 /
 
@@ -656,6 +666,9 @@ begin
         end if;
     end loop;
     dbms_output.put_line('');
+exception
+when others then
+    dbms_output.put_line('Encountered an error generating highest and lowest spenders report.');
 end;
 /
 
@@ -675,6 +688,9 @@ begin
     loop
         dbms_output.put_line('State: ' || state_tips_rec.customer_state || ' | Amount tipped: ' || state_tips_rec.total_tip);
     end loop;
+exception
+when others then
+    dbms_output.put_line('Encountered an error generating tip report.');
 end;
 /
 
@@ -693,3 +709,4 @@ begin
 
     generous_tipper_state_report;
 end;
+/
