@@ -433,8 +433,8 @@ begin
 
  for waiters_rec in waiters_cursor
  loop
- if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ', Waiter Name: ' || waiters_rec.Waiter_Name
- || ', Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID || chr(10));
+ if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ' | Waiter Name: ' || waiters_rec.Waiter_Name
+ || ' | Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID);
  --exit when waiters_cursor%notfound;
  end if;
  end loop;
@@ -480,7 +480,7 @@ is
 begin
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ' | Accumulated Tips: ' || orders_rec.SumOfTips);
  end loop;
  exception
      when no_data_found then
@@ -503,7 +503,7 @@ is
 begin
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ' | Accumulated Tips: ' || orders_rec.SumOfTips);
  end loop;
  exception
      when no_data_found then
