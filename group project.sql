@@ -380,6 +380,7 @@ END;
 
 -- MEMBER 2: Zachary Livesay
 
+-- helper function that returns the restaurant id using the Restauarnt Name as a parameter
 create or replace function FIND_RESTAURANT_ID
  (RestaurantName IN varchar2) RETURN number 
 is
@@ -394,6 +395,7 @@ begin
 end;
 /
 
+-- procedure that hires a waiter by taking in their name and the name of the restaurant the will be employed at
 create or replace procedure Hire_Waiter
  (WaiterName IN varchar2, RestaurantName IN varchar2)
 is
@@ -409,6 +411,7 @@ begin
 end;
 /
 
+-- procedure that shows a list of waiters at the restauarant that matches the one in the parameter
 create or replace procedure Show_Waiter_List
  (RestaurantName IN varchar2)
 is
@@ -460,7 +463,7 @@ Begin
 end;
 /
 
-
+--procedure that displays a sum of tips accumulated by each waiter
 create or replace procedure Report_Tips
 is
  cursor orders_cursor is
@@ -483,8 +486,8 @@ end;
 
 exec Report_Tips;
 
+--procedure that displays a sum of tips at restauarnts accumulated by state
 create or replace procedure Report_Tips_By_State
-
 is
  cursor orders_cursor is
 	select r.RESTAURANT_STATE, SUM(o.ORDER_TIP) as SumOfTips
