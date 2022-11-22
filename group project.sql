@@ -298,6 +298,8 @@ INSERT INTO orders VALUES (order_id_seq.nextval,
 	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'flatbread'), 
 	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'flatbread'));
 
+SET SERVEROUTPUT ON
+
 -- Beginning of Deliverable 2
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
