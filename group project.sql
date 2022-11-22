@@ -216,7 +216,7 @@ INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 3, to_date('2022-JAN-1
 --turn on server output
 set serveroutput on;
 
--- MEMBER 1 
+-- MEMBER 1: Gavin Phillips
 
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
@@ -253,8 +253,10 @@ BEGIN
     newCuisine('Chinese');
     newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
 END;
+/
 
--- MEMBER 2
+-- MEMBER 2: Zachary Livesay
+
 create or replace function FIND_RESTAURANT_ID
  (RestaurantName IN varchar2) RETURN number 
 is
@@ -332,14 +334,13 @@ Begin
 end;
 /
 
---- inserting extra orders for state tips
+--- inserting extra orders for state tips (Because member 4 has not added any orders to the table nor have they created the place_an_order procedure
 INSERT INTO orders VALUES (order_id_seq.nextval, 2, 5, 1, 4, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 15);
 INSERT INTO orders VALUES (order_id_seq.nextval, 3, 5, 1, 5, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 25);
 INSERT INTO orders VALUES (order_id_seq.nextval, 4, 5, 1, 6, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 5);
 INSERT INTO orders VALUES (order_id_seq.nextval, 5, 5, 1, 7, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 0);
 
 create or replace procedure Report_Tips
-
 is
  cursor orders_cursor is
 	select w.WAITER_ID, SUM(o.ORDER_TIP) as SumOfTips
@@ -378,7 +379,7 @@ end;
 
 exec Report_Tips_By_State;
 
--- MEMBER 3
+-- MEMBER 3 Nalia Pope
 
 -- cuisine id helper function 
 CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE (cuisineName IN VARCHAR2) RETURN NUMBER
@@ -419,9 +420,9 @@ BEGIN
 END;
 /
 
--- MEMBER 4
+-- MEMBER 4: Paul Rajapandi
 
--- MEMBER 5
+-- MEMBER 5: Rob Shovan
 
 -- find customer given name
 create or replace function find_customer_id(customerName in varchar2) return number
