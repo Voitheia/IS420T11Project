@@ -156,7 +156,10 @@ INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Suya Spot Ethiopian G
 -- insert sample waiters into database
 INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Zachary Livesay', 1);
 INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Kenny Somaiya', 1);
-INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Matthew Sachs', 1);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Matthew Sachs', 2);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jalen Murray', 3);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Jacob Nagel', 4);
+INSERT INTO waiters VALUES (waiter_id_seq.nextval, 'Austin Phillips', 5);
 
 -- insert values into menu_items table
 INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'American'), 'burger', 13);
@@ -198,6 +201,7 @@ insert into customers values (customer_id_seq.nextval, 'Bill W', 'wbill@gmail.co
 insert into customers values (customer_id_seq.nextval, 'Julia E', 'ejulia@gmail.com', '150 Light Street', 'Baltimore', 'NJ', '21030', '1234567890123456');
 insert into customers values (customer_id_seq.nextval, 'Chuck R', 'rchuck@gmail.com', '900 Light Street', 'Baltimore', 'WV', '21093', '1234567890123456');
 insert into customers values (customer_id_seq.nextval, 'Jackie Q', 'qjackie@gmail.com', '900 Light Street', 'Baltimore', 'WV', '21093', '1234567890123456');
+insert into customers values (customer_id_seq.nextval, 'Jon P', 'pjon@gmail.com', '1100 Light Street', 'Baltimore', 'MD', '21226', '1234567890123456');
 
 -- insert sample orders into database
 INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 10, 0);
@@ -212,6 +216,102 @@ INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-1
 INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 55, 20);
 INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 60, 30);
 INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 65, 30);
+
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'burger' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	1, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'burger'),  
+	1, to_date('2022-NOV-21', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'burger'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'burger'));
+
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'fries' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	1, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'fries'),  
+	1, to_date('2022-NOV-21', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'fries'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'fries'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'dal soup' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	2, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'dal soup'), 
+	2, to_date('2022-AUG-20', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'dal soup'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'dal soup'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'tandoori chicken' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	2, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'tandoori chicken'),  
+	2, to_date('2022-AUG-20', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'tandoori chicken'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'tandoori chicken'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'legume stew' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	3, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'),  
+	3, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'flatbread' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	3, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'flatbread'), 
+	3, to_date('2022-MAY-03', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'flatbread'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'flatbread'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'steak' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	4, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'steak'), 
+	4, to_date('2022-MAY-21', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'steak'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'steak'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'fillet mignon' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	4, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'fillet mignon'), 
+	4, to_date('2022-MAY-21', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'fillet mignon'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'fillet mignon'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'salad' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	5, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'salad'), 
+	5, to_date('2022-FEB-26', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'salad'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'salad'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'lasagna' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	5, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'lasagna'), 
+	5, to_date('2022-FEB-26', 'YYYY-MON-DD'),
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'lasagna'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'lasagna'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'meatballs' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	6, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'meatballs'), 
+	6, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'meatballs'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'meatballs'));
+	
+INSERT INTO orders VALUES (order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'pizza' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
+	6, 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pizza'), 
+	6, to_date('2022-OCT-31', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'pizza'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'pizza'));
 
 --turn on server output
 set serveroutput on;
@@ -248,10 +348,50 @@ create or replace procedure newRestaurant(
     END;
 /
 
+--procedure that takes input of cuisine name and returns restaurants that serve it, deliverable 3 procedure 1
+create or replace procedure findRestaurant(cName in varchar2)
+IS 
+    cursor fR IS SELECT restaurant_name, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zipcode
+    FROM restaurants
+    WHERE restaurant_cuisine_id = (SELECT cuisine_id FROM cuisines WHERE cuisine_name = cName);
+BEGIN
+    dbms_output.put_line(cName || ' is offered at these restaurants:');
+    dbms_output.put_line(' ');
+    for restaurant IN fR
+    loop
+        dbms_output.put_line('Name: ' || restaurant.restaurant_name);
+        dbms_output.put_line('Address: ' || restaurant.restaurant_street_address || ' ' || restaurant.restaurant_city 
+        || ', ' || restaurant.restaurant_state || ' ' || restaurant.restaurant_zipcode);
+    end loop;
+end;
+/
+
+--procedure that displays income for restaurants by state and cuisine type
+CREATE OR REPlACE VIEW IncomeReport AS
+    SELECT (SUM(ORDER_AMOUNT_PAID) + SUM(order_tip)) AS OrderTotal, restaurant_state, restaurant_cuisine_id
+    FROM ORDERS, RESTAURANTS
+    WHERE restaurant_id = order_restaurant_id 
+    GROUP BY restaurant_state, restaurant_cuisine_id;
+
+CREATE OR REPLACE PROCEDURE restaurantIncomeReport
+IS
+    cursor total IS SELECT ordertotal, restaurant_state, restaurant_cuisine_id FROM IncomeReport;
+    cName cuisines.cuisine_name%type;
+BEGIN
+    for restaurant IN total
+    loop
+        SELECT cuisine_name INTO cName FROM CUISINES WHERE restaurant.restaurant_cuisine_id = cuisine_id;
+        dbms_output.put_line('Restaurants in ' || restaurant.restaurant_state || ' that serve ' || cName || ' have an income of ' || restaurant.ordertotal);
+    end loop;
+end;
+/
+
 -- test newCuisine and newRestaurant procedures
 BEGIN
     newCuisine('Chinese');
-    newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'German');
+    newRestaurant('Rathskeller', '5782 Main St', 'Elkridge', 'MD', 21075, 'Chinese');
+    findRestaurant('Indian');
+    restaurantIncomeReport;
 END;
 /
 
@@ -388,7 +528,7 @@ cuisineID cuisines.cuisine_id%type;
 
 BEGIN
 SELECT cuisine_id INTO cuisineID FROM cuisines WHERE cuisine_name = cuisineName;
-RETURN cuisine_id;
+RETURN cuisineID;
 EXCEPTION
 WHEN NO_DATA_FOUND THEN
 	dbms_output.put_line('There is no cuisine ID for ' || cuisineName);
@@ -401,7 +541,7 @@ END;
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
 AS
 BEGIN
-	INSERT INTO menu_items(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL,itemName, price);
+	INSERT INTO menu_items VALUES(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL,itemName, price);
 END;
 
 /
@@ -409,13 +549,13 @@ END;
 --create procedure that adds and menu item with its attributes and quantity to the inventory
 CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (cuisineName IN VARCHAR2, quantity IN NUMBER)
 IS
-	name menu_items.menu_item_name%type;
+	item_name menu_items.menu_item_name%type;
 	rest_id restaurants.restaurant_id%type;
 BEGIN
-	SELECT menu_item_name INTO name
+	SELECT menu_item_name INTO item_name
 	FROM menu_items;
-	rest_id = FIND_RESTAURANT_ID();
-	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, name rest_id, quantity);
+	rest_id := FIND_RESTAURANT_ID();
+	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, item_name, rest_id, quantity);
 
 END;
 /
