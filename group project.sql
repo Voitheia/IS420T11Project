@@ -204,18 +204,6 @@ insert into customers values (customer_id_seq.nextval, 'Jackie Q', 'qjackie@gmai
 insert into customers values (customer_id_seq.nextval, 'Jon P', 'pjon@gmail.com', '1100 Light Street', 'Baltimore', 'MD', '21226', '1234567890123456');
 
 -- insert sample orders into database
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 10, 0);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 1, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 15, 0);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 20, 5);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 2, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 25, 5);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 30, 10);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 3, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 35, 10);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 40, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 4, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 45, 15);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 50, 20);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 5, 1, 1, to_date('2022-JAN-15', 'YYYY-MON-DD'), 55, 20);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 2, to_date('2022-JAN-15', 'YYYY-MON-DD'), 60, 30);
-INSERT INTO orders VALUES (order_id_seq.nextval, 1, 6, 1, 3, to_date('2022-JAN-15', 'YYYY-MON-DD'), 65, 30);
 
 INSERT INTO orders VALUES (order_id_seq.nextval, 
 	(SELECT restaurant_ID FROM restaurants, menu_items WHERE menu_item_name = 'burger' AND menu_item_cuisine_ID = restaurant_cuisine_id), 
