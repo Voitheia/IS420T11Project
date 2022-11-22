@@ -429,8 +429,8 @@ begin
 
  for waiters_rec in waiters_cursor
  loop
- if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ', Waiter Name: ' || waiters_rec.Waiter_Name
- || ', Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID);
+ if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ' | Waiter Name: ' || waiters_rec.Waiter_Name
+ || ' | Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID);
  --exit when waiters_cursor%notfound;
  end if;
  end loop;
