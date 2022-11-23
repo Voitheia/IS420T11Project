@@ -606,7 +606,7 @@ BEGIN
     INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL,mi_id,itemName,rest_id,quantity);
 EXCEPTION
 WHEN NO_DATA_FOUND THEN
-    dbmb_output.put_line('invalid restaurant name, menu item name or quantity');
+    dbms_output.put_line('invalid restaurant name, menu item name or quantity');
     
 END;
 /
