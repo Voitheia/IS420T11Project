@@ -538,7 +538,7 @@ BEGIN
     x := FIND_CUISINE_TYPE_ID('BBQ');
     dbms_output.put_line('The cuisine id is ' || x);
 END;
-
+/
 
 --procedure that creates a menu item and adds it to menu items table
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
@@ -592,6 +592,7 @@ BEGIN
     x := FIND_MENU_ITEM_ID ('samosa');
     dbms_output.put_line('The menu item id is: ' || x);
 END;
+/
 
 --ADD MENU_ITEM TO INVENTORY PROCEDURE
 CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (rest_name IN VARCHAR2, itemName IN VARCHAR2, quantity IN NUMBER)
@@ -616,6 +617,7 @@ SELECT * FROM inventory;
 BEGIN
     ADD_MENU_ITEM_TO_INVENTORY('Kabob and Curry','rice',16);
 END;
+/
 
 --UPDATE_MENU_ITEM_INVENTORY 
 CREATE OR REPLACE PROCEDURE UPDATE_MENU_ITEM_INVENTORY (rest_id IN NUMBER, mitem_id NUMBER, p_quantity IN NUMBER)
@@ -638,7 +640,7 @@ SELECT * FROM inventory;
 --trying to decrease "steak" in the inventory table by decreasing the quantity by 1
 exec UPDATE_MENU_ITEM_INVENTORY(2,6,1);
 SELECT * FROM inventory;
-
+/
 
 --REPORT_MENU_ITEMS procedure
 CREATE OR REPLACE PROCEDURE REPORT_MENU_ITEMS
