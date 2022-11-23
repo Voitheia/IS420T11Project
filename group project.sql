@@ -515,21 +515,30 @@ exec Report_Tips_By_State;
 
 -- MEMBER 3 Nalia Pope
 
--- cuisine id helper function 
-CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE (cuisineName IN VARCHAR2) RETURN NUMBER
+--find the type id of this particular menu_item's name
+CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE_ID (p_name IN VARCHAR2) RETURN NUMBER
 IS
-cuisineID cuisines.cuisine_id%type;
-
+    cuisineID cuisines.cuisine_id%type;
 BEGIN
-SELECT cuisine_id INTO cuisineID FROM cuisines WHERE cuisine_name = cuisineName;
-RETURN cuisineID;
-EXCEPTION
-WHEN NO_DATA_FOUND THEN
-	dbms_output.put_line('There is no cuisine ID for ' || cuisineName);
-	RETURN -1;
+    SELECT cuisine_id INTO cuisineID FROM cuisines WHERE cuisine_name = p_name;
+    RETURN cuisineID;
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+        dbms_output.put_line('There is no cuisine type ID for ' || p_name);
+        RETURN -1;
+    
+END;
+/
+
+--testing FIND_CUISINE_TYPE_ID function
+DECLARE
+    x NUMBER;
+BEGIN
+    x := FIND_CUISINE_TYPE_ID('BBQ');
+    dbms_output.put_line('The cuisine id is ' || x);
 END;
 
-/
 
 --procedure that creates a menu item and adds it to menu items table
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
@@ -537,22 +546,127 @@ AS
 BEGIN
 	INSERT INTO menu_items VALUES(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL,itemName, price);
 END;
-
 /
-	
---create procedure that adds and menu item with its attributes and quantity to the inventory
-CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (cuisineName IN VARCHAR2, quantity IN NUMBER)
-IS
-	item_name menu_items.menu_item_name%type;
-	rest_id restaurants.restaurant_id%type;
-BEGIN
-	SELECT menu_item_name INTO item_name
-	FROM menu_items;
-	rest_id := FIND_RESTAURANT_ID();
-	INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL, menu_item_id_seq.NEXTVAL, item_name, rest_id, quantity);
 
+-- CREATE_MENU_ITEM procedure
+CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM (c_type_id IN NUMBER,itemName IN VARCHAR2, price IN NUMBER) 
+IS
+BEGIN
+    INSERT INTO menu_items VALUES (menu_item_id_seq.NEXTVAL, c_type_id, itemName, price);
+    
 END;
 /
+
+
+--testing CREATE_MENU_ITEM procedure
+DECLARE
+    cuisine_type NUMBER;
+BEGIN
+    --SELECT * FROM menu_items;
+    cuisine_type := FIND_CUISINE_TYPE_ID('Italian');
+    CREATE_MENU_ITEM(cuisine_type,'meatballs', 15);
+    
+END;
+/
+
+	
+--helper function for FIND_MENU_ITEM_ID
+CREATE OR REPLACE FUNCTION FIND_MENU_ITEM_ID (name IN VARCHAR2) RETURN NUMBER
+IS
+    item_id NUMBER;
+BEGIN
+    SELECT menu_item_id INTO item_id FROM menu_items WHERE menu_item_name = name;
+    RETURN item_id;
+    
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN
+        dbms_output.put_line('There is no menu_item id for ' || name);
+END;
+/
+
+
+--testing FIND_MENU_ITEM_ID function
+DECLARE
+    x NUMBER;
+BEGIN
+    x := FIND_MENU_ITEM_ID ('samosa');
+    dbms_output.put_line('The menu item id is: ' || x);
+END;
+
+--ADD MENU_ITEM TO INVENTORY PROCEDURE
+CREATE OR REPLACE PROCEDURE ADD_MENU_ITEM_TO_INVENTORY (rest_name IN VARCHAR2, itemName IN VARCHAR2, quantity IN NUMBER)
+IS
+    item_name menu_items.menu_item_name%type;
+    mi_id menu_items.menu_item_id%type;
+    rest_id restaurants.restaurant_id%type;
+BEGIN
+    mi_id := FIND_MENU_ITEM_ID(itemName);
+    rest_id := FIND_RESTAURANT_ID(rest_name);
+    INSERT INTO inventory VALUES (inventory_id_seq.NEXTVAL,mi_id,itemName,rest_id,quantity);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+    dbmb_output.put_line('invalid restaurant name, menu item name or quantity');
+    
+END;
+/
+
+
+--testing ADD_MENU_ITEM_TO_INVENTORY procedure 
+SELECT * FROM inventory;
+BEGIN
+    ADD_MENU_ITEM_TO_INVENTORY('Kabob and Curry','rice',16);
+END;
+
+--UPDATE_MENU_ITEM_INVENTORY 
+CREATE OR REPLACE PROCEDURE UPDATE_MENU_ITEM_INVENTORY (rest_id IN NUMBER, mitem_id NUMBER, p_quantity IN NUMBER)
+IS 
+BEGIN
+    UPDATE inventory
+    SET inventory_quantity = inventory_quantity - p_quantity
+    WHERE inventory_restaurant_id = rest_id AND
+    inventory_menu_item_id = mitem_id;
+    
+    EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        dbms_output.put_line('Either syntax or logic error');
+END;
+/
+
+--testing UPDATE_MENU_ITEM_INVENTORY procedure 
+SELECT * FROM menu_items;
+SELECT * FROM inventory;
+--trying to decrease "steak" in the inventory table by decreasing the quantity by 1
+exec UPDATE_MENU_ITEM_INVENTORY(2,6,1);
+SELECT * FROM inventory;
+
+
+--REPORT_MENU_ITEMS procedure
+CREATE OR REPLACE PROCEDURE REPORT_MENU_ITEMS
+AS
+    CURSOR report_info IS SELECT menu_item_cuisine_id, inventory_menu_item_name, inventory_quantity FROM menu_items, inventory
+    WHERE menu_item_id = inventory_menu_item_id;
+    c_id menu_items.menu_item_cuisine_id%type;
+    item_name inventory.inventory_menu_item_name%type;
+    amount inventory.inventory_quantity%type;
+    
+BEGIN
+    OPEN report_info;
+    LOOP
+        FETCH report_info INTO c_id, item_name, amount;
+        EXIT WHEN report_info%NOTFOUND;
+        dbms_output.put_line('Cuisine id: ' || c_id || ' Item Name: ' || item_name || ' Amount: ' || amount);
+    END LOOP;
+    CLOSE report_info;
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+        dbms_output.put_line('Incorrect execution of explicit cursor.');
+END;
+/
+
+--testing REPORT_MENU_ITEMS procedure
+exec REPORT_MENU_ITEMS;
+
 
 -- MEMBER 4: Paul Rajapandi
 
