@@ -1,0 +1,140 @@
+1. Add Jack as waiter working for the Ribs_R_US restaurant
+2. Add Jill as waiter working for the Ribs_R_US restaurant
+3. Add Wendy as waiter working for the Ribs_R_US restaurant
+4. Add Hailey as waiter working for the Ribs_R_US restaurant
+5. Add Mary as waiter working for the Bella Italia restaurant
+6. Add Pat as waiter working for the Bella Italia restaurant
+7. Add Michael as waiter working for the Bella Italia restaurant
+8. Add Rakesh as waiter working for the Bella Italia restaurant
+9. Add Verma as waiter working for the Bella Italia restaurant
+10. Add Mike as waiter in the Roma restaurant
+11. Add Judy as waiter in the Roma restaurant
+12. Add Trevor as waiter in the Selasie restaurant
+13. Add Trudy as waiter in the Ethiop restaurant
+14. Add Trisha as waiter in the Ethiop restaurant
+15. Add Tariq as waiter in the Ethiop restaurant
+16. Add Chap as waiter in the Taj Mahal restaurant
+17. Add Hannah as waiter in the Bull Roast restaurant
+Show all information about waiters who work at the Ethiop restaurant
+--------------------------------------------------------------------------------------------------------------------
+
+--turn on server output
+set serveroutput on;
+
+
+-- MEMBER 2
+
+create or replace function FIND_RESTAURANT_ID
+ (RestaurantName IN varchar2) RETURN number 
+is
+ RID restaurants.restaurant_id%type;
+ 
+begin
+ select restaurant_id
+ into RID
+ from restaurants
+ where restaurant_name = RestaurantName;
+ return RID;
+end;
+/
+
+create or replace procedure Hire_Waiter
+ (WaiterName IN varchar2, RestaurantName IN varchar2)
+is
+ WName varchar2(50);
+ RName varchar2(50);
+ RID number;
+ 
+begin
+ WName := WaiterName;
+ RName := RestaurantName;
+ RID := FIND_RESTAURANT_ID(RName);
+ Insert into Waiters values (waiter_id_seq.nextval, WName, RID);
+end;
+/
+
+create or replace procedure Show_Waiter_List
+ (RestaurantName IN varchar2)
+is
+cursor waiters_cursor is
+    select Waiter_ID, Waiter_Name, Waiter_Restaurant_ID
+    from Waiters;
+  waiters_rec waiters_cursor%rowtype; 
+  
+  RName varchar(50);
+  RID number;
+ 
+begin
+ RName := RestaurantName;
+ RID := FIND_RESTAURANT_ID(RName);
+
+ for waiters_rec in waiters_cursor
+ loop
+ if waiters_rec.waiter_restaurant_id = RID then dbms_output.put_line('Waiter ID: ' || waiters_rec.Waiter_ID || ', Waiter Name: ' || waiters_rec.Waiter_Name
+ || ', Waiter Restaurant ID: ' || waiters_rec.Waiter_Restaurant_ID || chr(10));
+ --exit when waiters_cursor%notfound;
+ end if;
+ end loop;
+ exception
+	when no_data_found then
+	dbms_output.put_line('no such waiters exist');
+end;
+/
+
+create or replace procedure Report_Tips
+is
+ cursor orders_cursor is
+	select w.WAITER_ID, SUM(o.ORDER_TIP) as SumOfTips
+	from waiters w, orders o
+	where w.waiter_ID = o.ORDER_WAITER_ID
+    group by w.WAITER_ID;
+ orders_rec orders_cursor%rowtype; 
+ 
+begin
+ for orders_rec in orders_cursor
+ loop
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ end loop;
+end;
+/
+
+create or replace procedure Report_Tips_By_State
+is
+ cursor orders_cursor is
+	select r.RESTAURANT_STATE, SUM(o.ORDER_TIP) as SumOfTips
+	from restaurants r, orders o
+	where r.RESTAURANT_ID = o.ORDER_RESTAURANT_ID
+    group by r.RESTAURANT_STATE;
+ orders_rec orders_cursor%rowtype; 
+ 
+begin
+ for orders_rec in orders_cursor
+ loop
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ end loop;
+end;
+/
+
+Hire_Waiter ('Jack', 'Ribs_R_US');
+Hire_Waiter ('Jill', 'Ribs_R_US');
+Hire_Waiter ('Wendy', 'Ribs_R_US');
+Hire_Waiter ('Hailey', 'Ribs_R_US');
+Hire_Waiter ('Mary', 'Bella Italia');
+Hire_Waiter ('Pat', 'Bella Italia');
+Hire_Waiter ('Michael', 'Bella Italia');
+Hire_Waiter ('Rakesh', 'Bella Italia');
+Hire_Waiter ('Verma', 'Bella Italia');
+Hire_Waiter ('Mike', 'Roma');
+Hire_Waiter ('Judy', 'Roma');
+Hire_Waiter ('Trevor', 'Selasie');
+Hire_Waiter ('Trudy', 'Ethiop');
+Hire_Waiter ('Trisha', 'Ethiop');
+Hire_Waiter ('Tariq', 'Ethiop');
+Hire_Waiter ('Chap', 'Taj Mahal');
+Hire_Waiter ('Hannah', 'Bull Roast');
+
+exec show_waiter_list('Ethiop');
+exec Report_Tips;
+exec Report_Tips_by_State;
+
+
