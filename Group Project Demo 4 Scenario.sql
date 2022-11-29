@@ -325,13 +325,6 @@ END;
 /
 
 --procedure that creates a menu item and adds it to menu items table
-CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM(itemName IN VARCHAR2, price IN NUMBER)
-AS
-BEGIN
-	INSERT INTO menu_items VALUES(menu_item_id_seq.NEXTVAL, cuisine_id_seq.NEXTVAL,itemName, price);
-END;
-/
-
 -- CREATE_MENU_ITEM procedure
 CREATE OR REPLACE PROCEDURE CREATE_MENU_ITEM (c_type_id IN NUMBER,itemName IN VARCHAR2, price IN NUMBER) 
 IS
