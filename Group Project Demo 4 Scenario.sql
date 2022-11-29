@@ -213,7 +213,7 @@ BEGIN
 end;
 /
 
--- MEMBER 2
+-- MEMBER 2 Zachary Livesay
 
 create or replace function FIND_RESTAURANT_ID
  (RestaurantName IN varchar2) RETURN number 
