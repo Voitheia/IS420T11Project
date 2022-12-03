@@ -590,4 +590,22 @@ BEGIN
 
 -- Member 5: Rob Shovan
 
+
+-- Reports
+
+ ----------- REPORT BY MEMBER 1: ’ || Gavin Phillips || ‘ -------------
+ 
+ 
+ ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
+
+
+ ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
+
+
+ ----------- REPORT BY MEMBER 4: ’ || Paul Rajapandi || ‘ -------------
+
+
+ ----------- REPORT BY MEMBER 5: ’ || Rob Shovan || ‘ -------------
+
+ 
 END;
