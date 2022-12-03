@@ -597,7 +597,9 @@ BEGIN
  
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
-
+dmbs.output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ');
+Report_Tips;
+Report_Tips_by_State;
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
 
