@@ -574,10 +574,9 @@ BEGIN
 	Hire_Waiter ('Tariq', 'Ethiop');
 	Hire_Waiter ('Chap', 'Taj Mahal');
 	Hire_Waiter ('Hannah', 'Bull Roast');
-
+	dmbs.output.put_line(' ----------- Waiter List for Ethiop ------------- ' || chr(10));
 	show_waiter_list('Ethiop');
-	Report_Tips;
-	Report_Tips_by_State;
+	
 
 
 -- Member 3: Nalia Pope
@@ -597,7 +596,7 @@ BEGIN
  
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
-dmbs.output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ');
+dmbs.output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 Report_Tips;
 Report_Tips_by_State;
 
