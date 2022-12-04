@@ -139,6 +139,8 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
+set serveroutput on;
+
 -- Procedures and functions
 
 -- MEMBER 1: Gavin Phillips
@@ -574,7 +576,7 @@ BEGIN
 	Hire_Waiter ('Tariq', 'Ethiop');
 	Hire_Waiter ('Chap', 'Taj Mahal');
 	Hire_Waiter ('Hannah', 'Bull Roast');
-	dmbs.output.put_line(' ----------- Waiter List for Ethiop ------------- ' || chr(10));
+	dbms_output.put_line(' ----------- Waiter List for Ethiop ------------- ' || chr(10));
 	show_waiter_list('Ethiop');
 	
 
@@ -584,7 +586,19 @@ BEGIN
 
 
 -- Member 5: Rob Shovan
-
+	add_customer ('Cust1','cust1@gmail.com','123 Fake Rd','Baltimore','MD',21045,1234567890123456);
+	add_customer ('Cust11','cust11@gmail.com','123 Fake Rd','Baltimore','MD',21045,1234567890123456);
+	add_customer ('Cust3','cust3@gmail.com','123 Fake Rd','Baltimore','MD',21046,1234567890123456);
+	add_customer ('Cust111','cust111@gmail.com','123 Fake Rd','Baltimore','MD',21045,1234567890123456);
+	add_customer ('CustNY1','custNY1@gmail.com','123 Fake Rd','New York','NY',10045,1234567890123456);
+	add_customer ('CustNY2','custNY2@gmail.com','123 Fake Rd','New York','NY',10045,1234567890123456);
+	add_customer ('CustNY3','custNY3@gmail.com','123 Fake Rd','New York','NY',10045,1234567890123456);
+	add_customer ('CustPA1','custPA1@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
+	add_customer ('CustPA2','custPA2@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
+	add_customer ('CustPA3','custPA3@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
+	add_customer ('CustPA4','custPA4@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
+	add_customer ('CustPA5','custPA5@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
+	add_customer ('CustPA6','custPA6@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
 
 
 -- Member 4: Paul Rajapandi
@@ -596,11 +610,18 @@ BEGIN
 
 -- Reports
 
+dbms_output.put_line('========================================================================');
+dbms_output.put_line('========================================================================');
+dbms_output.put_line('                  ----    R E P O R T S   below ----');
+dbms_output.put_line('========================================================================');
+dbms_output.put_line('========================================================================');
+
+
  ----------- REPORT BY MEMBER 1: ’ || Gavin Phillips || ‘ -------------
  
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
-dmbs.output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
+dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 Report_Tips;
 Report_Tips_by_State;
 
@@ -611,6 +632,8 @@ Report_Tips_by_State;
 
 
  ----------- REPORT BY MEMBER 5: ’ || Rob Shovan || ‘ -------------
-
+dbms_output.put_line(' ----------- REPORT BY MEMBER 5: Robert Shovan ------------- ' || chr(10));
+highest_lowest_spenders_report;
+generous_tipper_state_report;
  
 END;
