@@ -139,8 +139,6 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
--- MEMBER 1 GAVIN DELETE THESE INSERTS WHEN YOU ADD YOUR CODE
-
 -- insert sample cuisines into database
 INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
@@ -800,6 +798,137 @@ INSERT INTO orders VALUES
 	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew') * 10), 
 	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew') * 10));
 
+Declare
+    i_rest_id NUMBER;
+    i_menu_item_num NUMBER;
+    
+    e_rest_id NUMBER;
+    e_menu_item_num NUMBER;
+    
+    b_rest_id NUMBER;
+    b_menu_item_num NUMBER;
+    
+    b2_rest_id NUMBER;
+    b2_menu_item_num NUMBER;
+Begin
+
+--Update menu item inventory: Reduce the inventory of rice by 25 at the Taj Mahal
+    i_rest_id := FIND_RESTAURANT_ID ('Taj Mahal');
+    i_menu_item_num := FIND_MENU_ITEM_ID('rice');
+    UPDATE_MENU_ITEM_INVENTORY(i_rest_id,i_menu_item_num,25);
+
+--Update menu item inventory: Reduce the inventory of meat chunks by 50 at the Selasie
+    e_rest_id := FIND_RESTAURANT_ID ('Selasie');
+    e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
+    UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,50);
+
+--Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
+    b_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
+    b_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
+    UPDATE_MENU_ITEM_INVENTORY(b_rest_id,b_menu_item_num,2);
+
+--Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
+    b2_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
+    b2_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
+    UPDATE_MENU_ITEM_INVENTORY(b2_rest_id,b2_menu_item_num,2);
+
+end;
+/
+--write out the output: '------------- Initial Inventory for Ethiop restaurant ---------'
+--run a query to show all information from restaurant_inventory for the Ethiop restaurant
+DECLARE
+    CURSOR restaurant_info IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
+    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
+    rest_name VARCHAR2(50);
+    in_id NUMBER;
+    in_item_id NUMBER;
+    in_item_name VARCHAR2(20);
+    in_rest_id NUMBER;
+    in_amt NUMBER;
+BEGIN
+    dbms_output.put_line('-------------------- Inital Inventory for Ethipo restaurant --------------------------'); 
+    OPEN restaurant_info;
+    LOOP
+        FETCH restaurant_info INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
+        EXIT WHEN restaurant_info%NOTFOUND;
+        dbms_output.put_line('Restaurant Name: '|| rest_name ||
+        ' Inventory ID:' || in_id || 
+        ' Inventory Menu Item ID: ' || in_item_id || 
+        ' Inventory Menu Item Name: ' || in_item_name || 
+        ' Restaurant ID: ' || in_rest_id || 
+        ' Item Quantity: ' || in_amt);
+    END LOOP;
+    CLOSE restaurant_info;
+END;
+/
+
+
+--update menu item inventory: reduce the inventory of meat chunks by 30 at the Ethiop
+DECLARE
+    e_rest_id NUMBER;
+    e_menu_item_num NUMBER;
+BEGIN
+    e_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+    e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
+    UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,30);
+
+END;
+/
+
+
+--Update menu item inventory: Reduce the inventory of meat chunks by 30 at the Ethiop
+DECLARE
+    e2_rest_id NUMBER;
+    e2_menu_item_num NUMBER;
+BEGIN
+    e2_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+    e2_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
+    UPDATE_MENU_ITEM_INVENTORY(e2_rest_id,e2_menu_item_num,30);
+
+END;
+/
+--Update menu item inventory: Reduce the inventory of legume stew by 20 at the Ethiop
+DECLARE
+    e3_rest_id NUMBER;
+    e3_menu_item_num NUMBER;
+BEGIN
+    e3_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+    e3_menu_item_num := FIND_MENU_ITEM_ID('legume stew');
+    UPDATE_MENU_ITEM_INVENTORY(e3_rest_id,e3_menu_item_num,20);
+
+END;
+/
+
+--Write on the output: ‘  ---------------  Final Inventory for Ethiop restaurant -------------------‘
+--Run a query to show all information from restaurant_inventory for the Ethiop restaurant
+
+DECLARE
+    CURSOR restaurant_info2 IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
+    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
+    rest_name VARCHAR2(50);
+    in_id NUMBER;
+    in_item_id NUMBER;
+    in_item_name VARCHAR2(20);
+    in_rest_id NUMBER;
+    in_amt NUMBER;
+BEGIN
+    dbms_output.put_line('-------------------- Final Inventory for Ethipo restaurant --------------------------'); 
+    OPEN restaurant_info2;
+    LOOP
+        FETCH restaurant_info2 INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
+        EXIT WHEN restaurant_info2%NOTFOUND;
+        dbms_output.put_line('Restaurant Name: '|| rest_name ||
+        ' Inventory ID:' || in_id || 
+        ' Inventory Menu Item ID: ' || in_item_id || 
+        ' Inventory Menu Item Name: ' || in_item_name || 
+        ' Restaurant ID: ' || in_rest_id || 
+        ' Item Quantity: ' || in_amt);
+    END LOOP;
+    CLOSE restaurant_info2;
+END;
+/
+
+
 -- Reports
 Declare
 Begin
@@ -834,5 +963,8 @@ highest_lowest_spenders_report;
 generous_tipper_state_report;
  
 END;
+
+
+
 
 
