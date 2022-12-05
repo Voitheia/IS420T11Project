@@ -139,6 +139,8 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
+-- MEMBER 1 GAVIN DELETE THESE INSERTS WHEN YOU ADD YOUR CODE
+
 -- insert sample cuisines into database
 INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
 INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
