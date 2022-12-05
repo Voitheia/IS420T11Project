@@ -558,6 +558,43 @@ end;
 
 DECLARE
 -- local variable
+    american_cuisine_type1 NUMBER;
+    american_cuisine_type2 NUMBER;
+    american_cuisine_type3 NUMBER;
+    american_cuisine_type4 NUMBER;
+    american_cuisine_type5 NUMBER;
+    
+    italian_cuisine_type1 NUMBER;
+    italian_cuisine_type2 NUMBER;
+    italian_cuisine_type3 NUMBER;
+    italian_cuisine_type4 NUMBER;
+    
+    bbq_cuisine_type1 NUMBER;
+    bbq_cuisine_type2 NUMBER;
+    bbq_cuisine_type3 NUMBER;
+    bbq_cuisine_type4 NUMBER;
+    
+    indian_cuisine_type1 NUMBER;
+    indian_cuisine_type2 NUMBER;
+    indian_cuisine_type3 NUMBER;
+    indian_cuisine_type4 NUMBER;
+    
+    ethiopian_cuisine_type1 NUMBER;
+    ethiopian_cuisine_type2 NUMBER;
+    ethiopian_cuisine_type3 NUMBER;
+    
+    i_rest_id NUMBER;
+    i_menu_item_num NUMBER;
+    
+    e_rest_id NUMBER;
+    e_menu_item_num NUMBER;
+    
+    b_rest_id NUMBER;
+    b_menu_item_num NUMBER;
+    
+    b2_rest_id NUMBER;
+    b2_menu_item_num NUMBER;
+    
 BEGIN
 
 -- Member 1: Gavin Phillips
@@ -590,13 +627,6 @@ BEGIN
 
 -- Member 3: Nalia Pope
 
-DECLARE
-    american_cuisine_type1 NUMBER;
-    american_cuisine_type2 NUMBER;
-    american_cuisine_type3 NUMBER;
-    american_cuisine_type4 NUMBER;
-    american_cuisine_type5 NUMBER;
-BEGIN
     american_cuisine_type1 := FIND_CUISINE_TYPE_ID('American');
     CREATE_MENU_ITEM(american_cuisine_type1,'Burger', 10);
     american_cuisine_type2 := FIND_CUISINE_TYPE_ID('American');
@@ -608,17 +638,9 @@ BEGIN
     american_cuisine_type5 := FIND_CUISINE_TYPE_ID('American');
     CREATE_MENU_ITEM(american_cuisine_type5,'salmon', 20);
     
-END;
-/
 
 --add all menu items for the italian cuisine in the DB by calling the appropriate procedure/function
-DECLARE
-    italian_cuisine_type1 NUMBER;
-    italian_cuisine_type2 NUMBER;
-    italian_cuisine_type3 NUMBER;
-    italian_cuisine_type4 NUMBER;
     
-BEGIN
     italian_cuisine_type1 := FIND_CUISINE_TYPE_ID('Italian');
     CREATE_MENU_ITEM(italian_cuisine_type1,'lasagna', 15);
     italian_cuisine_type2 := FIND_CUISINE_TYPE_ID('Italian');
@@ -628,17 +650,8 @@ BEGIN
     italian_cuisine_type4 := FIND_CUISINE_TYPE_ID('Italian');
     CREATE_MENU_ITEM(italian_cuisine_type4,'pizza', 20);
     
-END;
-/
-
 --add all menu items for the BBQ cuisine in the DB by calling the appropriate procedure/function
-DECLARE
-    bbq_cuisine_type1 NUMBER;
-    bbq_cuisine_type2 NUMBER;
-    bbq_cuisine_type3 NUMBER;
-    bbq_cuisine_type4 NUMBER;
     
-BEGIN
     bbq_cuisine_type1 := FIND_CUISINE_TYPE_ID('BBQ');
     CREATE_MENU_ITEM(bbq_cuisine_type1,'steak', 25);
     bbq_cuisine_type2 := FIND_CUISINE_TYPE_ID('BBQ');
@@ -648,17 +661,9 @@ BEGIN
     bbq_cuisine_type4 := FIND_CUISINE_TYPE_ID('BBQ');
     CREATE_MENU_ITEM(bbq_cuisine_type4,'filet mignon', 30);
     
-END;
-/
 
 --add all menu items for the Indian cuisine in the DB by calling the appropriate procedure/function
-DECLARE
-    indian_cuisine_type1 NUMBER;
-    indian_cuisine_type2 NUMBER;
-    indian_cuisine_type3 NUMBER;
-    indian_cuisine_type4 NUMBER;
     
-BEGIN
     indian_cuisine_type1 := FIND_CUISINE_TYPE_ID('Indian');
     CREATE_MENU_ITEM(indian_cuisine_type1,'dal soup', 10);
     indian_cuisine_type2 := FIND_CUISINE_TYPE_ID('Indian');
@@ -668,14 +673,8 @@ BEGIN
     indian_cuisine_type4 := FIND_CUISINE_TYPE_ID('Indian');
     CREATE_MENU_ITEM(indian_cuisine_type4,'samosa', 8);
     
-END;
-/
 --add all menu items for the Ethiopian cuisine in the DB by calling the appropriate procedure/function
-DECLARE
-    ethiopian_cuisine_type1 NUMBER;
-    ethiopian_cuisine_type2 NUMBER;
-    ethiopian_cuisine_type3 NUMBER;
-BEGIN
+
     ethiopian_cuisine_type1 := FIND_CUISINE_TYPE_ID('Ethiopian');
     CREATE_MENU_ITEM(ethiopian_cuisine_type1,'meat chunks', 12);
     ethiopian_cuisine_type2 := FIND_CUISINE_TYPE_ID('Ethiopian');
@@ -684,56 +683,54 @@ BEGIN
     CREATE_MENU_ITEM(ethiopian_cuisine_type3,'flatbread', 3);
    
     
-END;
-/
 
 
 --add burger to the inventory of the Ribs_R_US restaurant: quntity: 50
-exec ADD_MENU_ITEM_TO_INVENTORY('Ribs_R_US','burger',50);
+ ADD_MENU_ITEM_TO_INVENTORY('Ribs_R_US','burger',50);
 
 -- Add fries to the inventory of the Ribs_R_US restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Ribs_R_US','fries',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Ribs_R_US','fries',150);
 --the above line works correctly!
 
 --Add lasagna to the inventory of the Bella Italia restaurant: quantity: 10
-exec ADD_MENU_ITEM_TO_INVENTORY('Bella Italia','lasagna',10);
+ ADD_MENU_ITEM_TO_INVENTORY('Bella Italia','lasagna',10);
 --the above line works correctly!
 
 --Add steak to the inventory of the Bull Roast restaurant: quantity: 15
-exec ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','steak',15);
+ ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','steak',15);
 
 --Add pork loin to the inventory of the Bull Roast restaurant: quantity: 50
-exec ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','pork loin',50);
+ ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','pork loin',50);
 
 --Add fillet mignon to the inventory of the Bull Roast restaurant: quantity: 5
-exec ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','filet mignon',5);
+ ADD_MENU_ITEM_TO_INVENTORY('Bull Roast','filet mignon',5);
 
 --Add dal soup to the inventory of the Taj Mahal restaurant: quantity: 50
-exec ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','dal soup',50);
+ ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','dal soup',50);
 
 --Add rice to the inventory of the Taj Mahal restaurant: quantity: 500
-exec ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','rice',500);
+ ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','rice',500);
 
 --Add samosa to the inventory of the Taj Mahal restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','samosa',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Taj Mahal','samosa',150);
 
 --Add meat chunks to the inventory of the Selasie restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Selasie','meat chunks',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Selasie','meat chunks',150);
 
 --Add legume stew to the inventory of the Selasie restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Selasie','legume stew',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Selasie','legume stew',150);
 
 --Add flatbread to the inventory of the Selasie restaurant: quantity: 500
-exec ADD_MENU_ITEM_TO_INVENTORY('Selasie','flatbread',500);
+ ADD_MENU_ITEM_TO_INVENTORY('Selasie','flatbread',500);
 
 --Add meat chunks to the inventory of the Ethiop restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Ethiop','meat chunks',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Ethiop','meat chunks',150);
 
 --Add legume stew to the inventory of the Ethiop restaurant: quantity: 150
-exec ADD_MENU_ITEM_TO_INVENTORY('Ethiop','legume stew',150);
+ ADD_MENU_ITEM_TO_INVENTORY('Ethiop','legume stew',150);
 
 --Add flatbread to the inventory of the Ethiop restaurant: quantity: 500
-exec ADD_MENU_ITEM_TO_INVENTORY('Ethiop','flatbread',500);
+ ADD_MENU_ITEM_TO_INVENTORY('Ethiop','flatbread',500);
 
 
 
@@ -762,53 +759,25 @@ exec ADD_MENU_ITEM_TO_INVENTORY('Ethiop','flatbread',500);
 -- Member 3: Nalia Pope
 
 --Update menu item inventory: Reduce the inventory of rice by 25 at the Taj Mahal
-DECLARE
-    i_rest_id NUMBER;
-    i_menu_item_num NUMBER;
-BEGIN
     i_rest_id := FIND_RESTAURANT_ID ('Taj Mahal');
     i_menu_item_num := FIND_MENU_ITEM_ID('rice');
     UPDATE_MENU_ITEM_INVENTORY(i_rest_id,i_menu_item_num,25);
 
-END;
-/
-
 --Update menu item inventory: Reduce the inventory of meat chunks by 50 at the Selasie
-DECLARE
-    e_rest_id NUMBER;
-    e_menu_item_num NUMBER;
-BEGIN
     e_rest_id := FIND_RESTAURANT_ID ('Selasie');
     e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
     UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,50);
 
-END;
-/
-
-
 --Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
-DECLARE
-    b_rest_id NUMBER;
-    b_menu_item_num NUMBER;
-BEGIN
     b_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
     b_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
     UPDATE_MENU_ITEM_INVENTORY(b_rest_id,b_menu_item_num,2);
 
-END;
-/
-
-
 --Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
-DECLARE
-    b2_rest_id NUMBER;
-    b2_menu_item_num NUMBER;
-BEGIN
     b2_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
     b2_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
     UPDATE_MENU_ITEM_INVENTORY(b2_rest_id,b2_menu_item_num,2);
-
-END;
+end;
 /
 
 --write out the output: '------------- Initial Inventory for Ethiop restaurant ---------'
@@ -906,7 +875,8 @@ END;
 /
 
 -- Reports
-
+Declare
+Begin
 dbms_output.put_line('========================================================================');
 dbms_output.put_line('========================================================================');
 dbms_output.put_line('                  ----    R E P O R T S   below ----');
@@ -924,11 +894,8 @@ Report_Tips_by_State;
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
 
-BEGIN
-    dbms_output.put_line('-------------- REPORT BY MEMBER 3: NALIA POPE --------------------');
-END;
-/
-exec REPORT_MENU_ITEMS();
+dbms_output.put_line('-------------- REPORT BY MEMBER 3: NALIA POPE --------------------');
+REPORT_MENU_ITEMS();
 
  ----------- REPORT BY MEMBER 4: ’ || Paul Rajapandi || ‘ -------------
 
