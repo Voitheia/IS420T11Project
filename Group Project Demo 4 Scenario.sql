@@ -139,6 +139,8 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
+set serveroutput on;
+
 -- MEMBER 1 Gavin Phillips
 
 -- procedure that adds cuisine types
