@@ -243,6 +243,11 @@ begin
  RName := RestaurantName;
  RID := FIND_RESTAURANT_ID(RName);
  Insert into Waiters values (waiter_id_seq.nextval, WName, RID);
+ dbms_output.put_line('New Waiter ' || WName || ' added to ' || RNAME || '''s database.');
+    dbms_output.put_line('');
+exception
+when others then
+    dbms_output.put_line('Encountered an error adding a waiter.');
 end;
 /
 
