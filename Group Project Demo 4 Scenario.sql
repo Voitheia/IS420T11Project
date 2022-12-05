@@ -139,82 +139,22 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
-set serveroutput on;
+-- insert sample cuisines into database
+INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Italian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Ethiopian');
 
--- Procedures and functions
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Ribs_R_US', '1601 N Main St', 'Tarboro', 'NC', 21250, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Bella Italia', '1601 N Main St', 'Tarboro', 'NC', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Roma', '502 Baltimore Pike', 'Bel Air', 'MD', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Bull Roast', '827 Nursery Rd', 'Linthicum Heights', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Taj Mahal', '729A Frederick Rd', 'Catonsville', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Selasie', '10309 Grand Central Ave', 'Owings Mills', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Ethiop', '1601 N Main St', 'Tarboro', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
 
--- MEMBER 1: Gavin Phillips
-
--- Beginning of Deliverable 2
--- procedure that adds cuisine types
-create or replace procedure newCuisine(cuisine_type IN varchar2)
-    AS
-    BEGIN
-        INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
-    END;
-/
-
--- procedure that adds new restaurant
-create or replace procedure newRestaurant(
-    r_name varchar2,
-    r_street_address varchar2,
-    r_city varchar2,
-    r_state varchar2,
-    r_zipcode number,
-    r_cuisine_type varchar2
-    )
-    AS
-    BEGIN
-        INSERT INTO restaurants VALUES(
-        restaurant_id_seq.nextval,
-        r_name,
-        r_street_address,
-        r_city,
-        r_state,
-        r_zipcode,
-        (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
-    END;
-/
-
--- Beginning of Deliverable 3
---procedure that takes input of cuisine name and returns restaurants that serve it, deliverable 3 procedure 1
-create or replace procedure findRestaurant(cName in varchar2)
-IS 
-    cursor fR IS SELECT restaurant_name, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zipcode
-    FROM restaurants
-    WHERE restaurant_cuisine_id = (SELECT cuisine_id FROM cuisines WHERE cuisine_name = cName);
-BEGIN
-    dbms_output.put_line(cName || ' is offered at these restaurants:');
-    dbms_output.put_line(' ');
-    for restaurant IN fR
-    loop
-        dbms_output.put_line('Name: ' || restaurant.restaurant_name);
-        dbms_output.put_line('Address: ' || restaurant.restaurant_street_address || ' ' || restaurant.restaurant_city 
-        || ', ' || restaurant.restaurant_state || ' ' || restaurant.restaurant_zipcode);
-    end loop;
-end;
-/
-
---procedure that displays income for restaurants by state and cuisine type
-CREATE OR REPlACE VIEW IncomeReport AS
-    SELECT (SUM(ORDER_AMOUNT_PAID) + SUM(order_tip)) AS OrderTotal, restaurant_state, restaurant_cuisine_id
-    FROM ORDERS, RESTAURANTS
-    WHERE restaurant_id = order_restaurant_id 
-    GROUP BY restaurant_state, restaurant_cuisine_id;
-
-CREATE OR REPLACE PROCEDURE restaurantIncomeReport
-IS
-    cursor total IS SELECT ordertotal, restaurant_state, restaurant_cuisine_id FROM IncomeReport;
-    cName cuisines.cuisine_name%type;
-BEGIN
-    for restaurant IN total
-    loop
-        SELECT cuisine_name INTO cName FROM CUISINES WHERE restaurant.restaurant_cuisine_id = cuisine_id;
-        dbms_output.put_line('Restaurants in ' || restaurant.restaurant_state || ' that serve ' || cName || ' have an income of ' || restaurant.ordertotal);
-    end loop;
-end;
-/
-
+-- My Code --
 -- MEMBER 2 Zachary Livesay
 
 create or replace function FIND_RESTAURANT_ID
@@ -313,7 +253,7 @@ begin
 end;
 /
 
--- MEMBER 3 Nalia Pope
+-- Member 3 code Nalia
 
 --find the type id of this particular menu_item's name
 CREATE OR REPLACE FUNCTION FIND_CUISINE_TYPE_ID (p_name IN VARCHAR2) RETURN NUMBER
@@ -412,8 +352,6 @@ BEGIN
         dbms_output.put_line('Incorrect execution of explicit cursor.');
 END;
 /
-
--- MEMBER 4: Paul Rajapandi
 
 -- MEMBER 5: Rob Shovan
 
@@ -553,8 +491,34 @@ when others then
 end;
 /
 
+DECLARE
+-- local variable
+BEGIN
 
--- Procedure calls
+-- Member 2: Zachary Livesay
+
+	Hire_Waiter ('Jack', 'Ribs_R_US');
+	Hire_Waiter ('Jill', 'Ribs_R_US');
+	Hire_Waiter ('Wendy', 'Ribs_R_US');
+	Hire_Waiter ('Hailey', 'Ribs_R_US');
+	Hire_Waiter ('Mary', 'Bella Italia');
+	Hire_Waiter ('Pat', 'Bella Italia');
+	Hire_Waiter ('Michael', 'Bella Italia');
+	Hire_Waiter ('Rakesh', 'Bella Italia');
+	Hire_Waiter ('Verma', 'Bella Italia');
+	Hire_Waiter ('Mike', 'Roma');
+	Hire_Waiter ('Judy', 'Roma');
+	Hire_Waiter ('Trevor', 'Selasie');
+	Hire_Waiter ('Trudy', 'Ethiop');
+	Hire_Waiter ('Trisha', 'Ethiop');
+	Hire_Waiter ('Tariq', 'Ethiop');
+	Hire_Waiter ('Chap', 'Taj Mahal');
+	Hire_Waiter ('Hannah', 'Bull Roast');
+
+	show_waiter_list('Ethiop');
+
+end;
+/
 
 DECLARE
 -- local variable
@@ -594,38 +558,10 @@ DECLARE
     
     b2_rest_id NUMBER;
     b2_menu_item_num NUMBER;
-    
 BEGIN
 
--- Member 1: Gavin Phillips
-
-
-
--- Member 2: Zachary Livesay
-
-	Hire_Waiter ('Jack', 'Ribs_R_US');
-	Hire_Waiter ('Jill', 'Ribs_R_US');
-	Hire_Waiter ('Wendy', 'Ribs_R_US');
-	Hire_Waiter ('Hailey', 'Ribs_R_US');
-	Hire_Waiter ('Mary', 'Bella Italia');
-	Hire_Waiter ('Pat', 'Bella Italia');
-	Hire_Waiter ('Michael', 'Bella Italia');
-	Hire_Waiter ('Rakesh', 'Bella Italia');
-	Hire_Waiter ('Verma', 'Bella Italia');
-	Hire_Waiter ('Mike', 'Roma');
-	Hire_Waiter ('Judy', 'Roma');
-	Hire_Waiter ('Trevor', 'Selasie');
-	Hire_Waiter ('Trudy', 'Ethiop');
-	Hire_Waiter ('Trisha', 'Ethiop');
-	Hire_Waiter ('Tariq', 'Ethiop');
-	Hire_Waiter ('Chap', 'Taj Mahal');
-	Hire_Waiter ('Hannah', 'Bull Roast');
-	dbms_output.put_line(' ----------- Waiter List for Ethiop ------------- ' || chr(10));
-	show_waiter_list('Ethiop');
-	
-
-
--- Member 3: Nalia Pope
+    
+    -- Member 3: Nalia Pope
 
     american_cuisine_type1 := FIND_CUISINE_TYPE_ID('American');
     CREATE_MENU_ITEM(american_cuisine_type1,'Burger', 10);
@@ -733,10 +669,8 @@ BEGIN
  ADD_MENU_ITEM_TO_INVENTORY('Ethiop','flatbread',500);
 
 
-
-
-
 -- Member 5: Rob Shovan
+
 	add_customer ('Cust1','cust1@gmail.com','123 Fake Rd','Baltimore','MD',21045,1234567890123456);
 	add_customer ('Cust11','cust11@gmail.com','123 Fake Rd','Baltimore','MD',21045,1234567890123456);
 	add_customer ('Cust3','cust3@gmail.com','123 Fake Rd','Baltimore','MD',21046,1234567890123456);
@@ -751,128 +685,118 @@ BEGIN
 	add_customer ('CustPA5','custPA5@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
 	add_customer ('CustPA6','custPA6@gmail.com','123 Fake Rd','Pittsburg','PA',16822,1234567890123456);
 
-
--- Member 4: Paul Rajapandi
-
-
-
--- Member 3: Nalia Pope
-
---Update menu item inventory: Reduce the inventory of rice by 25 at the Taj Mahal
-    i_rest_id := FIND_RESTAURANT_ID ('Taj Mahal');
-    i_menu_item_num := FIND_MENU_ITEM_ID('rice');
-    UPDATE_MENU_ITEM_INVENTORY(i_rest_id,i_menu_item_num,25);
-
---Update menu item inventory: Reduce the inventory of meat chunks by 50 at the Selasie
-    e_rest_id := FIND_RESTAURANT_ID ('Selasie');
-    e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
-    UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,50);
-
---Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
-    b_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
-    b_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
-    UPDATE_MENU_ITEM_INVENTORY(b_rest_id,b_menu_item_num,2);
-
---Update menu item inventory: Reduce the inventory of filet mignon by 2 at the  Bull Roast
-    b2_rest_id := FIND_RESTAURANT_ID ('Bull Roast');
-    b2_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
-    UPDATE_MENU_ITEM_INVENTORY(b2_rest_id,b2_menu_item_num,2);
 end;
 /
 
---write out the output: '------------- Initial Inventory for Ethiop restaurant ---------'
---run a query to show all information from restaurant_inventory for the Ethiop restaurant
-DECLARE
-    CURSOR restaurant_info IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
-    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
-    rest_name VARCHAR2(50);
-    in_id NUMBER;
-    in_item_id NUMBER;
-    in_item_name VARCHAR2(20);
-    in_rest_id NUMBER;
-    in_amt NUMBER;
-BEGIN
-    dbms_output.put_line('-------------------- Inital Inventory for Ethipo restaurant --------------------------'); 
-    OPEN restaurant_info;
-    LOOP
-        FETCH restaurant_info INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
-        EXIT WHEN restaurant_info%NOTFOUND;
-        dbms_output.put_line('Restaurant Name: '|| rest_name ||
-        ' Inventory ID:' || in_id || 
-        ' Inventory Menu Item ID: ' || in_item_id || 
-        ' Inventory Menu Item Name: ' || in_item_name || 
-        ' Restaurant ID: ' || in_rest_id || 
-        ' Item Quantity: ' || in_amt);
-    END LOOP;
-    CLOSE restaurant_info;
-END;
-/
-
-
---update menu item inventory: reduce the inventory of meat chunks by 30 at the Ethiop
-DECLARE
-    e_rest_id NUMBER;
-    e_menu_item_num NUMBER;
-BEGIN
-    e_rest_id := FIND_RESTAURANT_ID ('Ethiop');
-    e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
-    UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,30);
-
-END;
-/
-
-
---Update menu item inventory: Reduce the inventory of meat chunks by 30 at the Ethiop
-DECLARE
-    e2_rest_id NUMBER;
-    e2_menu_item_num NUMBER;
-BEGIN
-    e2_rest_id := FIND_RESTAURANT_ID ('Ethiop');
-    e2_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
-    UPDATE_MENU_ITEM_INVENTORY(e2_rest_id,e2_menu_item_num,30);
-
-END;
-/
---Update menu item inventory: Reduce the inventory of legume stew by 20 at the Ethiop
-DECLARE
-    e3_rest_id NUMBER;
-    e3_menu_item_num NUMBER;
-BEGIN
-    e3_rest_id := FIND_RESTAURANT_ID ('Ethiop');
-    e3_menu_item_num := FIND_MENU_ITEM_ID('legume stew');
-    UPDATE_MENU_ITEM_INVENTORY(e3_rest_id,e3_menu_item_num,20);
-
-END;
-/
-
---Write on the output: ‘  ---------------  Final Inventory for Ethiop restaurant -------------------‘
---Run a query to show all information from restaurant_inventory for the Ethiop restaurant
-
-DECLARE
-    CURSOR restaurant_info2 IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
-    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
-    rest_name VARCHAR2(50);
-    in_id NUMBER;
-    in_item_id NUMBER;
-    in_item_name VARCHAR2(20);
-    in_rest_id NUMBER;
-    in_amt NUMBER;
-BEGIN
-    dbms_output.put_line('-------------------- Final Inventory for Ethipo restaurant --------------------------'); 
-    OPEN restaurant_info2;
-    LOOP
-        FETCH restaurant_info2 INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
-        EXIT WHEN restaurant_info2%NOTFOUND;
-        dbms_output.put_line('Restaurant Name: '|| rest_name ||
-        ' Inventory ID:' || in_id || 
-        ' Inventory Menu Item ID: ' || in_item_id || 
-        ' Inventory Menu Item Name: ' || in_item_name || 
-        ' Restaurant ID: ' || in_rest_id || 
-        ' Item Quantity: ' || in_amt);
-    END LOOP;
-    CLOSE restaurant_info2;
-END;
-/
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bella Italia'), 
+	(Select customer_id FROM customers WHERE customer_name = 'Cust1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pizza'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Mary'), 
+	to_date('2022-OCT-10', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'pizza'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'pizza'));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bella Italia'), 
+	(Select customer_id FROM customers WHERE customer_name = 'Cust11'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'spaghetti'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Mary'), 
+	to_date('2022-OCT-15', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'spaghetti') * 2), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'spaghetti') * 2));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bella Italia'), 
+	(Select customer_id FROM customers WHERE customer_name = 'Cust11'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pizza'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Mary'), 
+	to_date('2022-OCT-15', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'pizza'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'pizza'));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bull Roast'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustNY1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'filet mignon'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Hannah'), 
+	to_date('2022-NOV-01', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'filet mignon') * 2), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'filet mignon') * 2));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bull Roast'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustNY1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'filet mignon'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Hannah'), 
+	to_date('2022-NOV-02', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'filet mignon') * 2), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'filet mignon') * 2));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Bull Roast'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustNY2'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'pork loin'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Hannah'), 
+	to_date('2022-NOV-01', 'YYYY-MON-DD'), 
+	(SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'pork loin'), 
+	(SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'pork loin'));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Ethiop'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustPA1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'meat chunks'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Trisha'), 
+	to_date('2022-DEC-01', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'meat chunks') * 10), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'meat chunks') * 10));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Ethiop'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustPA1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'meat chunks'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Trisha'), 
+	to_date('2022-DEC-01', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'meat chunks') * 10), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'meat chunks') * 10));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Ethiop'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustPA1'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'meat chunks'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Trisha'), 
+	to_date('2022-DEC-05', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'meat chunks') * 10), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'meat chunks') * 10));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Ethiop'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustPA2'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Trevor'), 
+	to_date('2022-DEC-01', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew') * 10), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew') * 10));
+	
+INSERT INTO orders VALUES 
+	(order_id_seq.nextval, 
+	(SELECT restaurant_ID FROM restaurants WHERE restaurant_name = 'Ethiop'), 
+	(Select customer_id FROM customers WHERE customer_name = 'CustPA2'), 
+	(SELECT menu_item_id FROM menu_items WHERE menu_item_name = 'legume stew'),  
+	(SELECT waiter_id FROM waiters WHERE waiter_name = 'Trevor'), 
+	to_date('2022-DEC-06', 'YYYY-MON-DD'), 
+	((SELECT menu_item_price FROM menu_items WHERE menu_item_name = 'legume stew') * 10), 
+	((SELECT ROUND(menu_item_price*.2, 1) FROM menu_items WHERE menu_item_name = 'legume stew') * 10));
 
 -- Reports
 Declare
@@ -891,11 +815,13 @@ dbms_output.put_line('==========================================================
 dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 Report_Tips;
 Report_Tips_by_State;
+dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
 
 dbms_output.put_line('-------------- REPORT BY MEMBER 3: NALIA POPE --------------------');
 REPORT_MENU_ITEMS();
+dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 4: ’ || Paul Rajapandi || ‘ -------------
 
@@ -906,3 +832,5 @@ highest_lowest_spenders_report;
 generous_tipper_state_report;
  
 END;
+
+
