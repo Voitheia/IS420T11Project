@@ -139,20 +139,104 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
--- insert sample cuisines into database
-INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Italian');
-INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Ethiopian');
+-- MEMBER 1 Gavin Phillips
 
-INSERT into restaurants values(restaurant_id_seq.nextval, 'Ribs_R_US', '1601 N Main St', 'Tarboro', 'NC', 21250, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
-INSERT into restaurants values(restaurant_id_seq.nextval, 'Bella Italia', '1601 N Main St', 'Tarboro', 'NC', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Roma', '502 Baltimore Pike', 'Bel Air', 'MD', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Bull Roast', '827 Nursery Rd', 'Linthicum Heights', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Taj Mahal', '729A Frederick Rd', 'Catonsville', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
-INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Selasie', '10309 Grand Central Ave', 'Owings Mills', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
-INSERT into restaurants values(restaurant_id_seq.nextval, 'Ethiop', '1601 N Main St', 'Tarboro', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
+-- procedure that adds cuisine types
+create or replace procedure newCuisine(cuisine_type IN varchar2)
+    AS
+    BEGIN
+        INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
+    END;
+/
+
+-- procedure that adds new restaurant
+create or replace procedure newRestaurant(
+    r_name varchar2,
+    r_street_address varchar2,
+    r_city varchar2,
+    r_state varchar2,
+    r_zipcode number,
+    r_cuisine_type varchar2
+    )
+    AS
+    BEGIN
+        INSERT INTO restaurants VALUES(
+        restaurant_id_seq.nextval,
+        r_name,
+        r_street_address,
+        r_city,
+        r_state,
+        r_zipcode,
+        (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
+    END;
+/
+
+--procedure that takes input of cuisine name and returns restaurants that serve it
+create or replace procedure findRestaurant(cName in varchar2)
+IS 
+    cursor fR IS SELECT restaurant_name, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zipcode
+    FROM restaurants
+    WHERE restaurant_cuisine_id = (SELECT cuisine_id FROM cuisines WHERE cuisine_name = cName);
+BEGIN
+    dbms_output.put_line(cName || ' is offered at these restaurants:');
+    dbms_output.put_line(' ');
+    for restaurant IN fR
+    loop
+        dbms_output.put_line('Name: ' || restaurant.restaurant_name);
+        dbms_output.put_line('Address: ' || restaurant.restaurant_street_address || ' ' || restaurant.restaurant_city 
+        || ', ' || restaurant.restaurant_state || ' ' || restaurant.restaurant_zipcode);
+    end loop;
+    dbms_output.put_line(' ');
+end;
+/
+
+--procedure that displays income for restaurants by state and cuisine type
+CREATE OR REPlACE VIEW IncomeReport AS
+    SELECT (SUM(ORDER_AMOUNT_PAID) + SUM(order_tip)) AS OrderTotal, restaurant_state, restaurant_cuisine_id
+    FROM ORDERS, RESTAURANTS
+    WHERE restaurant_id = order_restaurant_id 
+    GROUP BY restaurant_state, restaurant_cuisine_id;
+
+CREATE OR REPLACE PROCEDURE restaurantIncomeReport
+IS
+    cursor total IS SELECT ordertotal, restaurant_state, restaurant_cuisine_id FROM IncomeReport;
+    cName cuisines.cuisine_name%type;
+BEGIN
+    for restaurant IN total
+    loop
+        SELECT cuisine_name INTO cName FROM CUISINES WHERE restaurant.restaurant_cuisine_id = cuisine_id;
+        dbms_output.put_line('Restaurants in ' || restaurant.restaurant_state || ' that serve ' || cName || ' have an income of ' || restaurant.ordertotal);
+    end loop;
+end;
+/
+
+-- Demonstration of the newCuisineprocedure
+BEGIN
+    newCuisine('American');
+    newCuisine('Italian');
+    newCuisine('BBQ');
+    newCuisine('Indian');
+    newCuisine('Ethiopian');
+END;
+/
+
+-- Demonstration of the newRestaurant procedure
+BEGIN
+    newRestaurant('Ribs_R_US', '5782 Main St', 'Baltimore', 'MD', 21250, 'American');
+    newRestaurant('Bella Italia', '1601 N Main St', 'Tarboro', 'NC', 21043, 'Italian');
+    newRestaurant('Roma', '502 Baltimore Pike', 'Bel Air', 'MD', 21043, 'Italian');
+    newRestaurant('Bull Roast', '827 Nursery Rd', 'Linthicum Heights', 'NY', 10013, 'BBQ');
+    newRestaurant('Taj Mahal', '729A Frederick Rd', 'Catonsville', 'NY', 10013, 'Indian');
+    newRestaurant('Selasie', '10309 Grand Central Ave', 'Owings Mills', 'PA', 16822, 'Ethiopian');
+    newRestaurant('Ethiop', '1345 First St', 'Tarboro', 'PA', 16822,  'Ethiopian');
+END;
+/
+-- Demonstration of the findRestaurant procedure
+BEGIN
+    findRestaurant('Italian');
+    findRestaurant('Ethiopian');
+END;
+/
 
 -- My Code --
 -- MEMBER 2 Zachary Livesay
@@ -940,7 +1024,10 @@ dbms_output.put_line('==========================================================
 
 
  ----------- REPORT BY MEMBER 1: ’ || Gavin Phillips || ‘ -------------
- 
+dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Gavin Phillips ------------- ' || chr(10));
+restaurantIncomeReport;
+dbms_output.put_line(chr(10));
+
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
 dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
@@ -963,8 +1050,3 @@ highest_lowest_spenders_report;
 generous_tipper_state_report;
  
 END;
-
-
-
-
-
