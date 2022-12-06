@@ -279,6 +279,8 @@ cursor waiters_cursor is
 begin
  RName := RestaurantName;
  RID := FIND_RESTAURANT_ID(RName);
+ 
+ dbms_output.put_line('Information about all waiters at ' || RName || '.');
 
  for waiters_rec in waiters_cursor
  loop
@@ -661,7 +663,6 @@ BEGIN
 	Hire_Waiter ('Hannah', 'Bull Roast');
 
 -- Displays all waiters from the restaurant 'Ethiop'
-	dbms_output.put_line('-------------------- List of Waiters for Ethipo restaurant --------------------------'); 
 	show_waiter_list('Ethiop');
 
     
@@ -1041,6 +1042,8 @@ Begin
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
 	dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
+	show_waiter_list('Ethiop');
+	dbms_output.put_line(chr(10));
 	Report_Tips;
 	dbms_output.put_line(chr(10));
 	Report_Tips_by_State;
