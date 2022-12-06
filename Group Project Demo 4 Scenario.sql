@@ -146,9 +146,12 @@ create sequence order_id_seq start with 1;
 
 -- procedure that adds cuisine types
 create or replace procedure newCuisine(cuisine_type IN varchar2)
-    AS
+AS
     BEGIN
         INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
+	EXCEPTION
+		when others then
+		dbms_output.put_line('An error occured');
     END;
 /
 
@@ -171,6 +174,9 @@ create or replace procedure newRestaurant(
         r_state,
         r_zipcode,
         (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
+	EXCEPTION
+		when others then
+		dbms_output.put_line('Incomplete or missing information was provided');
     END;
 /
 
@@ -190,6 +196,11 @@ BEGIN
         || ', ' || restaurant.restaurant_state || ' ' || restaurant.restaurant_zipcode);
     end loop;
     dbms_output.put_line(' ');
+EXCEPTION
+	when NO_DATA_FOUND then
+	dbms_output.put_line('There are no restaurants with the ' || cName || ' cuisine type.');
+	when others then
+	dbms_output.put_line('An error occured');
 end;
 /
 
@@ -210,6 +221,11 @@ BEGIN
         SELECT cuisine_name INTO cName FROM CUISINES WHERE restaurant.restaurant_cuisine_id = cuisine_id;
         dbms_output.put_line('Restaurants in ' || restaurant.restaurant_state || ' that serve ' || cName || ' have an income of ' || restaurant.ordertotal);
     end loop;
+EXCEPTION
+	when NO_DATA_FOUND then
+	dbms_output.put_line('No restauraunts have made any sales');
+	when OTHERS then
+	dbms_output.put_line('An error occured.');	
 end;
 /
 
