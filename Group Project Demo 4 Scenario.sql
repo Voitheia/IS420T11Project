@@ -1,3 +1,4 @@
+
 -- Team: T11
 -- Team Members:
 -- Member 1: Gavin Phillips
@@ -139,106 +140,20 @@ create sequence inventory_id_seq start with 1;
 create sequence customer_id_seq start with 1;
 create sequence order_id_seq start with 1;
 
-set serveroutput on;
+-- insert sample cuisines into database
+INSERT INTO cuisines values(cuisine_id_seq.nextval, 'American');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'BBQ');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Indian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Italian');
+INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, 'Ethiopian');
 
--- MEMBER 1 Gavin Phillips
-
--- procedure that adds cuisine types
-create or replace procedure newCuisine(cuisine_type IN varchar2)
-    AS
-    BEGIN
-        INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
-    END;
-/
-
--- procedure that adds new restaurant
-create or replace procedure newRestaurant(
-    r_name varchar2,
-    r_street_address varchar2,
-    r_city varchar2,
-    r_state varchar2,
-    r_zipcode number,
-    r_cuisine_type varchar2
-    )
-    AS
-    BEGIN
-        INSERT INTO restaurants VALUES(
-        restaurant_id_seq.nextval,
-        r_name,
-        r_street_address,
-        r_city,
-        r_state,
-        r_zipcode,
-        (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
-    END;
-/
-
---procedure that takes input of cuisine name and returns restaurants that serve it
-create or replace procedure findRestaurant(cName in varchar2)
-IS 
-    cursor fR IS SELECT restaurant_name, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zipcode
-    FROM restaurants
-    WHERE restaurant_cuisine_id = (SELECT cuisine_id FROM cuisines WHERE cuisine_name = cName);
-BEGIN
-    dbms_output.put_line(cName || ' is offered at these restaurants:');
-    dbms_output.put_line(' ');
-    for restaurant IN fR
-    loop
-        dbms_output.put_line('Name: ' || restaurant.restaurant_name);
-        dbms_output.put_line('Address: ' || restaurant.restaurant_street_address || ' ' || restaurant.restaurant_city 
-        || ', ' || restaurant.restaurant_state || ' ' || restaurant.restaurant_zipcode);
-    end loop;
-    dbms_output.put_line(' ');
-end;
-/
-
---procedure that displays income for restaurants by state and cuisine type
-CREATE OR REPlACE VIEW IncomeReport AS
-    SELECT (SUM(ORDER_AMOUNT_PAID) + SUM(order_tip)) AS OrderTotal, restaurant_state, restaurant_cuisine_id
-    FROM ORDERS, RESTAURANTS
-    WHERE restaurant_id = order_restaurant_id 
-    GROUP BY restaurant_state, restaurant_cuisine_id;
-
-CREATE OR REPLACE PROCEDURE restaurantIncomeReport
-IS
-    cursor total IS SELECT ordertotal, restaurant_state, restaurant_cuisine_id FROM IncomeReport;
-    cName cuisines.cuisine_name%type;
-BEGIN
-    for restaurant IN total
-    loop
-        SELECT cuisine_name INTO cName FROM CUISINES WHERE restaurant.restaurant_cuisine_id = cuisine_id;
-        dbms_output.put_line('Restaurants in ' || restaurant.restaurant_state || ' that serve ' || cName || ' have an income of ' || restaurant.ordertotal);
-    end loop;
-end;
-/
-
--- Demonstration of the newCuisineprocedure
-BEGIN
-    newCuisine('American');
-    newCuisine('Italian');
-    newCuisine('BBQ');
-    newCuisine('Indian');
-    newCuisine('Ethiopian');
-END;
-/
-
--- Demonstration of the newRestaurant procedure
-BEGIN
-    newRestaurant('Ribs_R_US', '5782 Main St', 'Baltimore', 'MD', 21250, 'American');
-    newRestaurant('Bella Italia', '1601 N Main St', 'Tarboro', 'NC', 21043, 'Italian');
-    newRestaurant('Roma', '502 Baltimore Pike', 'Bel Air', 'MD', 21043, 'Italian');
-    newRestaurant('Bull Roast', '827 Nursery Rd', 'Linthicum Heights', 'NY', 10013, 'BBQ');
-    newRestaurant('Taj Mahal', '729A Frederick Rd', 'Catonsville', 'NY', 10013, 'Indian');
-    newRestaurant('Selasie', '10309 Grand Central Ave', 'Owings Mills', 'PA', 16822, 'Ethiopian');
-    newRestaurant('Ethiop', '1345 First St', 'Tarboro', 'PA', 16822,  'Ethiopian');
-END;
-/
--- Demonstration of the findRestaurant procedure
-BEGIN
-    findRestaurant('Italian');
-    findRestaurant('Ethiopian');
-END;
-/
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Ribs_R_US', '1601 N Main St', 'Tarboro', 'NC', 21250, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Bella Italia', '1601 N Main St', 'Tarboro', 'NC', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Roma', '502 Baltimore Pike', 'Bel Air', 'MD', 21043, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Italian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Bull Roast', '827 Nursery Rd', 'Linthicum Heights', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'BBQ'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Taj Mahal', '729A Frederick Rd', 'Catonsville', 'NY', 10013, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Indian'));
+INSERT INTO restaurants VALUES(restaurant_id_seq.nextval, 'Selasie', '10309 Grand Central Ave', 'Owings Mills', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
+INSERT into restaurants values(restaurant_id_seq.nextval, 'Ethiop', '1601 N Main St', 'Tarboro', 'PA', 16822, (SELECT cuisine_id FROM cuisines WHERE cuisine_name = 'Ethiopian'));
 
 -- My Code --
 -- MEMBER 2 Zachary Livesay
@@ -315,10 +230,9 @@ is
  orders_rec orders_cursor%rowtype; 
  
 begin
-  dbms_output.put_line('Report of Tips by Waiter');
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips);
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
  end loop;
 end;
 /
@@ -333,10 +247,9 @@ is
  orders_rec orders_cursor%rowtype; 
  
 begin
- dbms_output.put_line('Report of Tips by State');
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips);
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
  end loop;
 end;
 /
@@ -898,6 +811,25 @@ Declare
     
     b2_rest_id NUMBER;
     b2_menu_item_num NUMBER;
+	
+	e2_rest_id NUMBER;
+    e2_menu_item_num NUMBER;
+	
+	e3_rest_id NUMBER;
+    e3_menu_item_num NUMBER;
+	
+-- Cursor for the query to show all information from restaurant_inventory for the Ethiop restaurant
+	CURSOR restaurant_info IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
+    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
+    
+	rest_name VARCHAR2(50);
+    in_item_name VARCHAR2(20);
+    in_rest_id NUMBER;
+    in_amt NUMBER;
+	in_id NUMBER;
+    in_item_id NUMBER;
+	
+
 Begin
 
 --Update menu item inventory: Reduce the inventory of rice by 25 at the Taj Mahal
@@ -920,20 +852,10 @@ Begin
     b2_menu_item_num := FIND_MENU_ITEM_ID('filet mignon');
     UPDATE_MENU_ITEM_INVENTORY(b2_rest_id,b2_menu_item_num,2);
 
-end;
-/
+
 --write out the output: '------------- Initial Inventory for Ethiop restaurant ---------'
 --run a query to show all information from restaurant_inventory for the Ethiop restaurant
-DECLARE
-    CURSOR restaurant_info IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
-    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
-    rest_name VARCHAR2(50);
-    in_id NUMBER;
-    in_item_id NUMBER;
-    in_item_name VARCHAR2(20);
-    in_rest_id NUMBER;
-    in_amt NUMBER;
-BEGIN
+
     dbms_output.put_line('-------------------- Inital Inventory for Ethipo restaurant --------------------------'); 
     OPEN restaurant_info;
     LOOP
@@ -947,64 +869,37 @@ BEGIN
         ' Item Quantity: ' || in_amt);
     END LOOP;
     CLOSE restaurant_info;
-END;
-/
-
-
+	
+	
 --update menu item inventory: reduce the inventory of meat chunks by 30 at the Ethiop
-DECLARE
-    e_rest_id NUMBER;
-    e_menu_item_num NUMBER;
-BEGIN
-    e_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+
+	e_rest_id := FIND_RESTAURANT_ID ('Ethiop');
     e_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
     UPDATE_MENU_ITEM_INVENTORY(e_rest_id,e_menu_item_num,30);
-
-END;
-/
-
-
+	
+	
 --Update menu item inventory: Reduce the inventory of meat chunks by 30 at the Ethiop
-DECLARE
-    e2_rest_id NUMBER;
-    e2_menu_item_num NUMBER;
-BEGIN
-    e2_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+
+	e2_rest_id := FIND_RESTAURANT_ID ('Ethiop');
     e2_menu_item_num := FIND_MENU_ITEM_ID('meat chunks');
     UPDATE_MENU_ITEM_INVENTORY(e2_rest_id,e2_menu_item_num,30);
-
-END;
-/
+	
+	
 --Update menu item inventory: Reduce the inventory of legume stew by 20 at the Ethiop
-DECLARE
-    e3_rest_id NUMBER;
-    e3_menu_item_num NUMBER;
-BEGIN
-    e3_rest_id := FIND_RESTAURANT_ID ('Ethiop');
+	
+	e3_rest_id := FIND_RESTAURANT_ID ('Ethiop');
     e3_menu_item_num := FIND_MENU_ITEM_ID('legume stew');
     UPDATE_MENU_ITEM_INVENTORY(e3_rest_id,e3_menu_item_num,20);
-
-END;
-/
-
+	
+	
 --Write on the output: ‘  ---------------  Final Inventory for Ethiop restaurant -------------------‘
 --Run a query to show all information from restaurant_inventory for the Ethiop restaurant
-
-DECLARE
-    CURSOR restaurant_info2 IS SELECT restaurants.restaurant_name, inventory_id, inventory_menu_item_id, inventory_menu_item_name, inventory_restaurant_id, inventory_quantity 
-    FROM restaurants, inventory WHERE restaurant_id = inventory_restaurant_id AND restaurant_name = 'Ethiop';
-    rest_name VARCHAR2(50);
-    in_id NUMBER;
-    in_item_id NUMBER;
-    in_item_name VARCHAR2(20);
-    in_rest_id NUMBER;
-    in_amt NUMBER;
-BEGIN
-    dbms_output.put_line('-------------------- Final Inventory for Ethipo restaurant --------------------------'); 
-    OPEN restaurant_info2;
+	
+	    dbms_output.put_line('-------------------- Final Inventory for Ethipo restaurant --------------------------'); 
+    OPEN restaurant_info;
     LOOP
-        FETCH restaurant_info2 INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
-        EXIT WHEN restaurant_info2%NOTFOUND;
+        FETCH restaurant_info INTO rest_name, in_id, in_item_id,in_item_name, in_rest_id,in_amt;
+        EXIT WHEN restaurant_info%NOTFOUND;
         dbms_output.put_line('Restaurant Name: '|| rest_name ||
         ' Inventory ID:' || in_id || 
         ' Inventory Menu Item ID: ' || in_item_id || 
@@ -1012,7 +907,8 @@ BEGIN
         ' Restaurant ID: ' || in_rest_id || 
         ' Item Quantity: ' || in_amt);
     END LOOP;
-    CLOSE restaurant_info2;
+    CLOSE restaurant_info;
+
 END;
 /
 
@@ -1025,25 +921,20 @@ dbms_output.put_line('==========================================================
 dbms_output.put_line('                  ----    R E P O R T S   below ----');
 dbms_output.put_line('========================================================================');
 dbms_output.put_line('========================================================================');
-dbms_output.put_line(chr(10));
+
 
  ----------- REPORT BY MEMBER 1: ’ || Gavin Phillips || ‘ -------------
-dbms_output.put_line(' ----------- REPORT BY MEMBER 1: Gavin Phillips ------------- ' || chr(10));
-restaurantIncomeReport;
-dbms_output.put_line(chr(10));
-
+ 
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
 dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 Report_Tips;
-dbms_output.put_line(chr(10));
 Report_Tips_by_State;
 dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
 
 dbms_output.put_line('-------------- REPORT BY MEMBER 3: NALIA POPE --------------------');
-dbms_output.put_line(chr(10));
 REPORT_MENU_ITEMS();
 dbms_output.put_line(chr(10));
 
@@ -1056,3 +947,5 @@ highest_lowest_spenders_report;
 generous_tipper_state_report;
  
 END;
+
+
