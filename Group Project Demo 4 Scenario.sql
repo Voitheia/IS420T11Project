@@ -271,6 +271,7 @@ begin
  --exit when waiters_cursor%notfound;
  end if;
  end loop;
+ dbms_output.put_line(chr(10));
  exception
 	when no_data_found then
 	dbms_output.put_line('no such waiters exist');
