@@ -1049,7 +1049,7 @@ Begin
 	dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
-	dbms_output.put_line('-------------- REPORT BY MEMBER 3: Nalia Pope --------------------');
+	dbms_output.put_line('-------------- REPORT BY MEMBER 3: Nalia Pope --------------------' || chr(10));
 	REPORT_MENU_ITEMS();
 	dbms_output.put_line(chr(10));
 
