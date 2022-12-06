@@ -1023,10 +1023,10 @@ dbms_output.put_line('==========================================================
 dbms_output.put_line('                  ----    R E P O R T S   below ----');
 dbms_output.put_line('========================================================================');
 dbms_output.put_line('========================================================================');
-
+dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 1: ’ || Gavin Phillips || ‘ -------------
-dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Gavin Phillips ------------- ' || chr(10));
+dbms_output.put_line(' ----------- REPORT BY MEMBER 1: Gavin Phillips ------------- ' || chr(10));
 restaurantIncomeReport;
 dbms_output.put_line(chr(10));
 
