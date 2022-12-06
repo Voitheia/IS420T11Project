@@ -315,9 +315,10 @@ is
  orders_rec orders_cursor%rowtype; 
  
 begin
+  dbms_output.put_line('Report of Tips by Waiter');
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('Waiter ID: ' || orders_rec.Waiter_ID || ', Accumulated Tips: ' || orders_rec.SumOfTips);
  end loop;
 end;
 /
@@ -332,9 +333,10 @@ is
  orders_rec orders_cursor%rowtype; 
  
 begin
+ dbms_output.put_line('Report of Tips by State');
  for orders_rec in orders_cursor
  loop
- dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips || chr(10));
+ dbms_output.put_line('State: ' || orders_rec.RESTAURANT_STATE || ', Accumulated Tips: ' || orders_rec.SumOfTips);
  end loop;
 end;
 /
@@ -1034,12 +1036,14 @@ dbms_output.put_line(chr(10));
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
 dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 Report_Tips;
+dbms_output.put_line(chr(10));
 Report_Tips_by_State;
 dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
 
 dbms_output.put_line('-------------- REPORT BY MEMBER 3: NALIA POPE --------------------');
+dbms_output.put_line(chr(10));
 REPORT_MENU_ITEMS();
 dbms_output.put_line(chr(10));
 
