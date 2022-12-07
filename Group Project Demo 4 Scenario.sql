@@ -149,6 +149,8 @@ create or replace procedure newCuisine(cuisine_type IN varchar2)
 AS
     BEGIN
         INSERT INTO cuisines VALUES(cuisine_id_seq.nextval, cuisine_type);
+        dbms_output.put_line(cuisine_type || ' was inserted into to the cuisines table.');
+        dbms_output.put_line(' ');
 	EXCEPTION
 		when others then
 		dbms_output.put_line('An error occured');
@@ -174,6 +176,8 @@ create or replace procedure newRestaurant(
         r_state,
         r_zipcode,
         (SELECT cuisine_id FROM cuisines WHERE cuisine_name = r_cuisine_type));
+        dbms_output.put_line(r_name || ' was inserted into to the restaurants table.');
+        dbms_output.put_line(' ');
 	EXCEPTION
 		when others then
 		dbms_output.put_line('Incomplete or missing information was provided');
@@ -279,8 +283,6 @@ cursor waiters_cursor is
 begin
  RName := RestaurantName;
  RID := FIND_RESTAURANT_ID(RName);
- 
- dbms_output.put_line('Information about all waiters at ' || RName || ':');
 
  for waiters_rec in waiters_cursor
  loop
@@ -663,6 +665,7 @@ BEGIN
 	Hire_Waiter ('Hannah', 'Bull Roast');
 
 -- Displays all waiters from the restaurant 'Ethiop'
+	dbms_output.put_line('-------------------- List of Waiters for Ethipo restaurant --------------------------'); 
 	show_waiter_list('Ethiop');
 
     
@@ -1042,14 +1045,13 @@ Begin
  
  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
 	dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
-	show_waiter_list('Ethiop');
 	Report_Tips;
 	dbms_output.put_line(chr(10));
 	Report_Tips_by_State;
 	dbms_output.put_line(chr(10));
 
  ----------- REPORT BY MEMBER 3: ’ || Nalia Pope || ‘ -------------
-	dbms_output.put_line('-------------- REPORT BY MEMBER 3: Nalia Pope --------------------' || chr(10));
+	dbms_output.put_line('-------------- REPORT BY MEMBER 3: Nalia Pope --------------------');
 	REPORT_MENU_ITEMS();
 	dbms_output.put_line(chr(10));
 
