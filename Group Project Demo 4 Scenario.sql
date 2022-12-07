@@ -576,6 +576,8 @@ end;
 
 -- Procedure Calls
 
+SET SERVEROUTPUT ON
+
 DECLARE
 -- local variables
 	american_cuisine_type1 NUMBER;
