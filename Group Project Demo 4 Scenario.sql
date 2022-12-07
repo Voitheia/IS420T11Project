@@ -1045,7 +1045,8 @@ Begin
 	restaurantIncomeReport;
 	dbms_output.put_line(chr(10));
  
- ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
+  ----------- REPORT BY MEMBER 2: ’ || Zachary Livesay || ‘ -------------
+	dbms_output.put_line(' ----------- REPORT BY MEMBER 2: Zachary Livesay ------------- ' || chr(10));
 	show_waiter_list('Ethiop');
 	Report_Tips;
 	dbms_output.put_line(chr(10));
